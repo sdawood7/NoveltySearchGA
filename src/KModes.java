@@ -8,13 +8,11 @@ public class KModes
   private static int speciesCount;
   // Map where key is the cluster centroid, and string array is all members of cluster(species)
   public static Map<String, ArrayList<String>> speciesList;
-  private int[][] comparisonMatrix;
 
   public KModes()
   {
     speciesCount = Parameters.species;
     speciesList = new HashMap<>();
-    comparisonMatrix = new int[speciesCount][Search.member.length];
 
     initKModes();
   }
@@ -43,10 +41,10 @@ public class KModes
     }
 
     // Initialize done
-    for(Map.Entry<String, ArrayList<String>> entry : speciesList.entrySet())
-    {
-      System.out.println(entry.getKey() + ":" + entry.getValue().toString());
-    }
+    //for(Map.Entry<String, ArrayList<String>> entry : speciesList.entrySet())
+    //{
+    //  System.out.println(entry.getKey() + ":\t" + entry.getValue().toString() + "\n\n");
+    //}
   }
 
   // Compute the hamming distance of two binary strings
@@ -62,11 +60,6 @@ public class KModes
     }
 
     return dist;
-  }
-
-  private void setComparisonMatrix()
-  {
-
   }
 
   // Sort pop members into their clusters, return false if changes were made, true otherwise
@@ -106,7 +99,7 @@ public class KModes
       tempClusterList[cluster].add(Search.member[i].chromo);
 
       // Check if the member was moved to a different cluster
-      if(speciesList.get(clusterKey).contains(Search.member[i].chromo))
+      if(!speciesList.get(clusterKey).contains(Search.member[i].chromo))
         noChangeMade = false;
     }
 
@@ -122,7 +115,7 @@ public class KModes
   }
 
   // Adjust centriod based on cluster
-  private void adjustCentroids()
+  private static void adjustCentroids()
   {
     Map<String, ArrayList<String>> newSpeciesList = new HashMap<>();
     // Go through each species and build the new  centroid string
@@ -132,13 +125,16 @@ public class KModes
     for(String key : speciesList.keySet())
     {
       // Go through each gene
+      newCentroid = "";
       for(int i = 0; i < Search.member[0].chromo.length(); i++)
       {
         oneSum = 0;
         zeroSum = 0;
         // Go through each member
-        for(int j = 0; j < speciesList.get(key).get(0).length(); j++)
+        for(int j = 0; j < speciesList.get(key).size(); j++)
         {
+          //System.out.println("key " + key + " j " + j +  " i " + i);
+          //System.out.println(speciesList.get(key).get(j));
           if(speciesList.get(key).get(j).charAt(i) == '1')
             oneSum++;
           else
@@ -150,9 +146,13 @@ public class KModes
         {
           newCentroid += '1';
         }
-        else
+        else if(zeroSum > oneSum)
         {
           newCentroid += '0';
+        }
+        else
+        {
+          newCentroid += key.charAt(i);
         }
       }
 
@@ -165,12 +165,25 @@ public class KModes
   }
 
   // Run KModes to speciate
-  public void speciate()
+  public static void speciate()
   {
     // Sort clusters until no more changes need to be made
-    while(sortClusters())
+    while(!sortClusters())
     {
       adjustCentroids();
+    }
+
+    //for(Map.Entry<String, ArrayList<String>> entry : speciesList.entrySet())
+    //{
+    //  System.out.println(entry.getKey() + ":\t" + entry.getValue().toString() + "\n\n");
+    //}
+  }
+
+  public static void viewSpecies()
+  {
+    for(Map.Entry<String, ArrayList<String>> entry : speciesList.entrySet())
+    {
+      System.out.println(entry.getKey() + ":\t" + entry.getValue().toString() + "\n\n");
     }
   }
 }

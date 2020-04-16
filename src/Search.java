@@ -350,6 +350,8 @@ public class Search {
 					Chromo.copyB2A(member[i], child[i]);
 				}
 
+				KModes.speciate();
+
 			} //  Repeat the above loop for each generation
 
 			Hwrite.left(bestOfRunR, 4, summaryOutput);
