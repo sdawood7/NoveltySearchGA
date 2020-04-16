@@ -70,7 +70,7 @@ public class Search {
 
 	public static void main(String[] args) throws java.io.IOException{
 
-		Calendar dateAndTime = Calendar.getInstance(); 
+		Calendar dateAndTime = Calendar.getInstance();
 		Date startTime = dateAndTime.getTime();
 
 	//  Read Parameter File
@@ -92,7 +92,7 @@ public class Search {
 	//	Problem Specific Setup - For new new fitness function problems, create
 	//	the appropriate class file (extending FitnessFunction.java) and add
 	//	an else_if block below to instantiate the problem.
- 
+
 		if (Parameters.problemType.equals("NM")){
 				problem = new NumberMatch();
 		}
@@ -138,6 +138,8 @@ public class Search {
 				member[i] = new Chromo();
 				child[i] = new Chromo();
 			}
+
+			KModes kmodes = new KModes();
 
 			//	Begin Each Run
 			for (G=0; G<Parameters.generations; G++){
@@ -203,7 +205,7 @@ public class Search {
 
 				averageRawFitness = sumRawFitness / Parameters.popSize;
 				stdevRawFitness = Math.sqrt(
-							Math.abs(sumRawFitness2 - 
+							Math.abs(sumRawFitness2 -
 							sumRawFitness*sumRawFitness/Parameters.popSize)
 							/
 							(Parameters.popSize-1)
@@ -351,6 +353,8 @@ public class Search {
 					Chromo.copyB2A(member[i], child[i]);
 				}
 
+				KModes.speciate();
+
 			} //  Repeat the above loop for each generation
 
 			Hwrite.left(bestOfRunR, 4, summaryOutput);
@@ -380,11 +384,10 @@ public class Search {
 
 		System.out.println();
 		System.out.println("Start:  " + startTime);
-		dateAndTime = Calendar.getInstance(); 
+		dateAndTime = Calendar.getInstance();
 		Date endTime = dateAndTime.getTime();
 		System.out.println("End  :  " + endTime);
 
 	} // End of Main Class
 
 }   // End of Search.Java ******************************************************
-
