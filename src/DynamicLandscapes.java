@@ -35,6 +35,11 @@ public class DynamicLandscapes{
 //  COMPUTE A CHROMOSOME'S RAW FITNESS *************************************
 
 	public void doRawFitness(Chromo X){
+		// double fitness = 0.0;
+		// fitness= (4-2.1*Math.pow(x, 2)+(Math.pow(x, 4)/3))*Math.pow(x, 2)+x*y+(-4+4*Math.pow(y, 2))*Math.pow(y, 2);
+		// return fitness;
+		//range -3<=x<=3, -2<=y<=2
+		//min @ f(x1,x2)=-1.0316; (x1,x2)=(-0.0898,0.7126), (0.0898,-0.7126).
 
 		X.rawFitness = 0;
 		for (int z=0; z<Parameters.numGenes * Parameters.geneSize; z++){
@@ -62,8 +67,9 @@ public class DynamicLandscapes{
 	//sinusoidal landscape
 	public static double fitnessFunction1(double x, double y){
 		double fitness = 0.0;
-		fitness= Math.sin(x/10) + Math.cos (y/20);
+		fitness= Math.sin(x/3) + Math.cos (y);
 		return fitness;
+		//min @ 0 , (3,0)
 	}
 
 	//DeJong's function 2.16
@@ -71,6 +77,7 @@ public class DynamicLandscapes{
 		double fitness = 0.0;
 		fitness= (4-2.1*Math.pow(x, 2)+(Math.pow(x, 4)/3))*Math.pow(x, 2)+x*y+(-4+4*Math.pow(y, 2))*Math.pow(y, 2);
 		return fitness;
+		//range -3<=x<=3, -2<=y<=2
 		//min @ f(x1,x2)=-1.0316; (x1,x2)=(-0.0898,0.7126), (0.0898,-0.7126).
 	}
 
@@ -82,6 +89,7 @@ public class DynamicLandscapes{
 		double f=1/(8*Math.PI);
 		fitness= Math.pow(y-b*Math.pow(x,2)+(c*x)-6, 2)+ 10*(1-f)*Math.cos(x)+10;
 		return fitness;
+		//range: -5<=x<=10, 0<=y<=15
 		//min @ f(x1,x2)=0.397887; (x1,x2)=(-pi,12.275), (pi,2.275), (9.42478,2.475).
 	}
 
@@ -108,8 +116,17 @@ public class DynamicLandscapes{
 		v = v + 1.0/500.0;
 		v = Math.pow(v, -1);
 		return v;
-		//min @ .9980038377944, (x, y)= −31.97833
+		//max @ 500, (x, y)= −31.97833
 	}
+
+	//function 2.6
+	// public static double fitnessFunction5(double x, double y){
+	// 	double fitness = 0.0;
+		
+		
+	// 	return fitness;
+	// 	//min @ f(x1,x2)=0.397887; (x1,x2)=(-pi,12.275), (pi,2.275), (9.42478,2.475).
+	// }
 
 
 /*******************************************************************************
@@ -118,10 +135,10 @@ public class DynamicLandscapes{
 	public static void main(String[] args) throws java.io.IOException{
 		//(-0.0898,0.7126)
 		//(pi,2.275)
-		//−31.97833
+		//-31.97833
 
-		double x= -31.97833;
-		double y= -31.97833;
+		double x= -31;
+		double y= -65.97833;
 		double fitness1, fitness2, fitness3, fitness4;
 		fitness1= fitnessFunction1(x, y);
 		fitness2= fitnessFunction2(x, y);
