@@ -45,7 +45,7 @@ public class KModes
   }
 
   // Compute the hamming distance of two binary strings
-  private static int hammingDistance(String str1, String str2)
+  public static int hammingDistance(String str1, String str2)
   {
     int dist = 0;
     for(int i = 0; i < str1.length(); i++)
@@ -119,7 +119,12 @@ public class KModes
   // Adjust centriod based on cluster
   private void adjustCentroids()
   {
+    // Go through each species and build the new  centroid string
+    String newCentroid;
+    for(String key : speciesList.keySet())
+    {
 
+    }
   }
 
   // Run KModes to speciate
