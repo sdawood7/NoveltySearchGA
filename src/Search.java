@@ -99,9 +99,9 @@ public class Search {
 		else if (Parameters.problemType.equals("OM")){
 				problem = new OneMax();
 		}
-		// else if (Parameters.problemType.equals("DL")){
-		// 		problem = new DynamicLandscapes();
-		// }
+		else if (Parameters.problemType.equals("DL")){
+				problem = new DynamicLandscapes();
+		}
 		else System.out.println("Invalid Problem Type");
 
 		System.out.println(problem.name);

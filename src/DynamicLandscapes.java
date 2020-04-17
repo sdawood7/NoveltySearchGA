@@ -8,7 +8,7 @@ import java.util.*;
 import java.text.*;
 import java.lang.Math;
 
-public class DynamicLandscapes{
+public class DynamicLandscapes extends FitnessFunction{
 
 /*******************************************************************************
 *                            INSTANCE VARIABLES                                *
@@ -24,9 +24,9 @@ public class DynamicLandscapes{
 *                              CONSTRUCTORS                                    *
 *******************************************************************************/
 
-	// public DynamicLandscapes(){
-	// 	name = "DynamicLandscapes Problem";
-	// }
+	public DynamicLandscapes(){
+		name = "DynamicLandscapes Problem1";
+	}
 
 /*******************************************************************************
 *                                MEMBER METHODS                                *
@@ -35,16 +35,15 @@ public class DynamicLandscapes{
 //  COMPUTE A CHROMOSOME'S RAW FITNESS *************************************
 
 	public void doRawFitness(Chromo X){
-		// double fitness = 0.0;
-		// fitness= (4-2.1*Math.pow(x, 2)+(Math.pow(x, 4)/3))*Math.pow(x, 2)+x*y+(-4+4*Math.pow(y, 2))*Math.pow(y, 2);
+		double x, y;
+		for (int j=0; j<Parameters.numGenes;j++){
+			x= X.getXGeneValue(j)*3;
+			y= X.getYGeneValue(j)*2;
+			X.rawFitness= (4-2.1*Math.pow(x, 2)+(Math.pow(x, 4)/3))*Math.pow(x, 2)+x*y+(-4+4*Math.pow(y, 2))*Math.pow(y, 2);
+		}		
 		// return fitness;
 		//range -3<=x<=3, -2<=y<=2
 		//min @ f(x1,x2)=-1.0316; (x1,x2)=(-0.0898,0.7126), (0.0898,-0.7126).
-
-		X.rawFitness = 0;
-		for (int z=0; z<Parameters.numGenes * Parameters.geneSize; z++){
-			if (X.chromo.charAt(z) == '1') X.rawFitness += 1;
-		}
 	}
 
 //  PRINT OUT AN INDIVIDUAL GENE TO THE SUMMARY FILE *********************************
