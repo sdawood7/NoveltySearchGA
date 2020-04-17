@@ -34,13 +34,17 @@ public class Search {
 
 	public static double sumRawFitness;
 	public static double sumRawFitness2;	// sum of squares of fitness
+	public static double sumNoveltyFitness;
+	public static double sumNoveltyFitness2;
 	public static double sumSclFitness;
 	public static double sumProFitness;
 	public static double defaultBest;
 	public static double defaultWorst;
 
 	public static double averageRawFitness;
+	public static double averageNoveltyFitness;
 	public static double stdevRawFitness;
+	public static double stdevNoveltyFitness;
 
 	public static int G;
 	public static int R;
@@ -147,8 +151,11 @@ public class Search {
 				sumProFitness = 0;
 				sumSclFitness = 0;
 				sumRawFitness = 0;
+				sumNoveltyFitness = 0;
 				sumRawFitness2 = 0;
+				sumNoveltyFitness2 = 0;
 				bestOfGenChromo.rawFitness = defaultBest;
+				bestOfGenChromo.noveltyFitness = 0;
 
 				//	Test Fitness of Each Member
 				for (int i=0; i<Parameters.popSize; i++){
@@ -199,11 +206,20 @@ public class Search {
 					}
 				}
 
+				// Test Novelty Score of each individual
+				for(int i=0; i<Parameters.popSize; i++){
+					problem.assessNovelty(member[i]);
+					sumNoveltyFitness += member[i].noveltyFitness;
+					sumNoveltyFitness2 = sumNoveltyFitness2 +
+						member[i].noveltyFitness * member[i].noveltyFitness;
+				}
+
 				// Accumulate fitness statistics
 				fitnessStats[0][G] += sumRawFitness / Parameters.popSize;
 				fitnessStats[1][G] += bestOfGenChromo.rawFitness;
 
 				averageRawFitness = sumRawFitness / Parameters.popSize;
+				averageNoveltyFitness = sumNoveltyFitness / Parameters.popSize;
 				stdevRawFitness = Math.sqrt(
 							Math.abs(sumRawFitness2 -
 							sumRawFitness*sumRawFitness/Parameters.popSize)
@@ -211,8 +227,16 @@ public class Search {
 							(Parameters.popSize-1)
 							);
 
+				stdevNoveltyFitness = Math.sqrt(
+							Math.abs(sumNoveltyFitness2 -
+							sumNoveltyFitness*sumNoveltyFitness/Parameters.popSize)
+							/
+							(Parameters.popSize-1)
+							);
+
 				// Output generation statistics to screen
-				System.out.println(R + "\t" + G +  "\t" + (int)bestOfGenChromo.rawFitness + "\t" + averageRawFitness + "\t" + stdevRawFitness);
+				System.out.println(R + "\t" + G +  "\t" + (int)bestOfGenChromo.rawFitness + "\t" + averageRawFitness + "\t"
+				+ stdevRawFitness + "\t\t" + bestOfGenChromo.noveltyFitness + "\t" + averageNoveltyFitness + "\t" + stdevNoveltyFitness);
 
 				// Output generation statistics to summary file
 				summaryOutput.write(" R ");
@@ -222,6 +246,9 @@ public class Search {
 				Hwrite.right((int)bestOfGenChromo.rawFitness, 7, summaryOutput);
 				Hwrite.right(averageRawFitness, 11, 3, summaryOutput);
 				Hwrite.right(stdevRawFitness, 11, 3, summaryOutput);
+				Hwrite.right((int)bestOfGenChromo.noveltyFitness, 7, summaryOutput);
+				Hwrite.right(averageNoveltyFitness, 11, 3, summaryOutput);
+				Hwrite.right(stdevNoveltyFitness, 11, 3, summaryOutput);
 				summaryOutput.write("\n");
 
 
