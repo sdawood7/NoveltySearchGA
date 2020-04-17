@@ -61,6 +61,38 @@ public class Chromo
 		return (geneAlpha);
 	}
 
+	public double getXGeneValue(int geneID){
+		String geneAlpha = "";
+		double geneValue;
+		char geneSign;
+		char geneBit;
+		geneValue = 0;
+		geneAlpha = getGeneAlpha(geneID);
+		for (int i=(Parameters.geneSize/2)-1; i>=1; i--){
+			geneBit = geneAlpha.charAt(i);
+			if (geneBit == '1') geneValue = geneValue + (1/Math.pow(2.0, ((Parameters.geneSize/2)-i-1)));
+		}
+		geneSign = geneAlpha.charAt(0);
+		if (geneSign == '1') geneValue = geneValue*-1;
+		return (geneValue);
+	}
+
+	public double getYGeneValue(int geneID){
+		String geneAlpha = "";
+		double geneValue;
+		char geneSign;
+		char geneBit;
+		geneValue = 0;
+		geneAlpha = getGeneAlpha(geneID);
+		for (int i=Parameters.geneSize-1; i>=(Parameters.geneSize/2)+1; i--){
+			geneBit = geneAlpha.charAt(i);
+			if (geneBit == '1') geneValue = geneValue + (1/Math.pow(2.0, (Parameters.geneSize-i-1)));
+		}
+		geneSign = geneAlpha.charAt((Parameters.geneSize/2));
+		if (geneSign == '1') geneValue = geneValue*-1;
+		return (geneValue);
+	}
+
 	//  Get Integer Value of a Gene (Positive or Negative, 2's Compliment) ****
 
 	public int getIntGeneValue(int geneID){
