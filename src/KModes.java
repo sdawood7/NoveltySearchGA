@@ -97,6 +97,7 @@ public class KModes
 
       // Add member to temp arraylist for that cluster
       tempClusterList[cluster].add(Search.member[i].chromo);
+      Search.member[i].speciesKey = clusterKey;
 
       // Check if the member was moved to a different cluster
       if(!speciesList.get(clusterKey).contains(Search.member[i].chromo))
