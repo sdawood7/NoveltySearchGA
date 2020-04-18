@@ -49,6 +49,26 @@ public class DynamicLandscapes1 extends FitnessFunction{
 		//min @ f(x1,x2)=-1.0316; (x1,x2)=(-0.0898,0.7126), (0.0898,-0.7126).
 	}
 
+	public static void assessNovelty(Chromo X)
+	{
+		X.noveltyFitness = 0;
+
+		// Grab the species array list
+		ArrayList<String> currentSpecies = KModes.speciesList.get(X.speciesKey);
+		// TODO: Loop through this chromo's species and accumulate hammingDistance score
+		for(int i = 0; i < currentSpecies.size(); i++)
+		{
+			if(currentSpecies.get(i) != X.chromo)
+			{
+				// Accumulate score
+				X.noveltyFitness += KModes.hammingDistance(currentSpecies.get(i), X.chromo);
+			}
+		}
+		// TODO: Average the distance score and save to noveltyFitness score
+		if((currentSpecies.size() - 1) != 0)
+			X.noveltyFitness /= (currentSpecies.size() - 1);
+	}
+
 //  PRINT OUT AN INDIVIDUAL GENE TO THE SUMMARY FILE *********************************
 
 	public void doPrintGenes(Chromo X, FileWriter output) throws java.io.IOException{
@@ -134,6 +154,7 @@ public class DynamicLandscapes1 extends FitnessFunction{
 		return v;
 		//max @ 500, (x, y)= −31.97833
 	}
+<<<<<<< HEAD:src/DynamicLandscapes1.java
 	// public static void main(String[] args) throws java.io.IOException{
 	// 	//(-0.0898,0.7126)
 	// 	//(pi,2.275)
@@ -150,6 +171,15 @@ public class DynamicLandscapes1 extends FitnessFunction{
 	// 	System.out.println("fitness2 = " + fitness2);
 	// 	System.out.println("fitness3 = " + fitness3);
 	// 	System.out.println("fitness4 = " + fitness4);
+=======
+
+	//function 2.6
+	// public static double fitnessFunction5(double x, double y){
+	// 	double fitness = 0.0;
+
+
+	// 	return fitness;
+	// 	//min @ f(x1,x2)=0.397887; (x1,x2)=(-pi,12.275), (pi,2.275), (9.42478,2.475).
+>>>>>>> 53dfdd42851c25a8e9b1b184ffb184f7aba71cad:src/DynamicLandscapes.java
 	// }
 }   // End of DynamicLandscapes.java ******************************************************
-

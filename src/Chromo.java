@@ -17,6 +17,8 @@ public class Chromo
 	public double rawFitness;
 	public double sclFitness;
 	public double proFitness;
+	public double noveltyFitness;
+	public String speciesKey;
 
 /*******************************************************************************
 *                            INSTANCE VARIABLES                                *
