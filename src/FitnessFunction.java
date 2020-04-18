@@ -39,6 +39,11 @@ class FitnessFunction{
 		System.out.println("Executing FF Raw Fitness");
 	}
 
+	public void assessNovelty(Chromo X)
+	{
+		// Do a thing
+	}
+
 //  PRINT OUT AN INDIVIDUAL GENE TO THE SUMMARY FILE *********************************
 
 	public void doPrintGenes(Chromo X, FileWriter output) throws java.io.IOException{
@@ -52,4 +57,3 @@ class FitnessFunction{
 
 
 }   // End of OneMax.java ******************************************************
-
