@@ -42,6 +42,7 @@ public class DynamicLandscapes1 extends FitnessFunction{
 		
 		//parameters to trans or osc
 		//must uncomment function/ test below
+		//set trans= 0 if user doesn't want translating
 		if(G >0){
 			t=G/5;
 			osc = 5%G;
