@@ -34,19 +34,63 @@ public class DynamicLandscapes1 extends FitnessFunction{
 
 //  COMPUTE A CHROMOSOME'S RAW FITNESS *************************************
 
-	public void doRawFitness(Chromo X){
-		double x, y;
+	public void doRawFitness(Chromo X, int G){
+		double x, y, trans;
+		int t, osc;
+		trans=0;
+		osc=0;
+		
+		//parameters to trans or osc
+		//must uncomment function/ test below
+		if(G >0){
+			t=G/5;
+			osc = 5%G;
+			trans=0.0001*t;
+		}
+
 		for (int j=0; j<Parameters.numGenes;j++){
-			x= X.getXGeneValue(j)*3;
+			//multiply x and y value by specific function range
+			//change these lines to change function
+
+			//Function 1
+			//range: -5<=x<=5, -5<=y<=5
+			//min @ 0 , (3,0)
+			// x= (X.getXGeneValue(j)*5)+trans;
+			// y= (X.getYGeneValue(j)*5)+trans;
+			// X.rawFitness= Math.sin(x/3) + Math.cos (y);
+
+			//Function 2
+			//range: -5<=x<=5, -5<=y<=5
+			//min @ f(x1,x2)=-1.0316; (x1,x2)=(-0.0898,0.7126), (0.0898,-0.7126).
+			// x= (X.getXGeneValue(j)*5)+trans;
+			// y= (X.getYGeneValue(j)*5)+trans;
+			// X.rawFitness= (4-2.1*Math.pow(x, 2)+(Math.pow(x, 4)/3))*Math.pow(x, 2)+x*y+(-4+4*Math.pow(y, 2))*Math.pow(y, 2);
+			
+			//Function 3
+			//range:: -5<=x<=10, 0<=y<=15
+			//min @ f(x1,x2)=0.397887; (x1,x2)=(-pi,12.275), (pi,2.275), (9.42478,2.475).
+			// double b= 5.1/(4*Math.pow(Math.PI,2));
+			// double c = 5/Math.PI;
+			// double f=1/(8*Math.PI);
+			// x= (X.getXGeneValue(j)*10)+trans;
+			// y= (X.getYGeneValue(j)*10)+trans;
+			// X.rawFitness= Math.pow(y-b*Math.pow(x,2)+(c*x)-6, 2)+ 10*(1-f)*Math.cos(x)+10;
+			
+			//Oscillation Test: flip between function 1 & 2 every x gen
+			x= (X.getXGeneValue(j)*5)+trans;
+			y= (X.getYGeneValue(j)*5)+trans;
+			if(osc==0){
+				X.rawFitness= Math.sin(x/3) + Math.cos (y);
+			}
+			else{
+				X.rawFitness= (4-2.1*Math.pow(x, 2)+(Math.pow(x, 4)/3))*Math.pow(x, 2)+x*y+(-4+4*Math.pow(y, 2))*Math.pow(y, 2);
+			}
+
 			//System.out.print("x = " + x + " ");
-			y= X.getYGeneValue(j)*2;
 			//System.out.print("y = " + y + "  ");
-			X.rawFitness= (4-2.1*Math.pow(x, 2)+(Math.pow(x, 4)/3))*Math.pow(x, 2)+x*y+(-4+4*Math.pow(y, 2))*Math.pow(y, 2);
 			//System.out.print("fit = " + X.rawFitness + " \n");
+			
 		}		
-		// return fitness;
-		//range -3<=x<=3, -2<=y<=2
-		//min @ f(x1,x2)=-1.0316; (x1,x2)=(-0.0898,0.7126), (0.0898,-0.7126).
 	}
 
 	public void assessNovelty(Chromo X)

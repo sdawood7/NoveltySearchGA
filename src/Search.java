@@ -164,7 +164,7 @@ public class Search {
 					member[i].sclFitness = 0;
 					member[i].proFitness = 0;
 
-					problem.doRawFitness(member[i]);
+					problem.doRawFitness(member[i], G);
 
 					sumRawFitness = sumRawFitness + member[i].rawFitness;
 					sumRawFitness2 = sumRawFitness2 +
