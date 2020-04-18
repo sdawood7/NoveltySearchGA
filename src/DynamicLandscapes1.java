@@ -49,7 +49,7 @@ public class DynamicLandscapes1 extends FitnessFunction{
 		//min @ f(x1,x2)=-1.0316; (x1,x2)=(-0.0898,0.7126), (0.0898,-0.7126).
 	}
 
-	public static void assessNovelty(Chromo X)
+	public void assessNovelty(Chromo X)
 	{
 		X.noveltyFitness = 0;
 
@@ -154,7 +154,6 @@ public class DynamicLandscapes1 extends FitnessFunction{
 		return v;
 		//max @ 500, (x, y)= −31.97833
 	}
-<<<<<<< HEAD:src/DynamicLandscapes1.java
 	// public static void main(String[] args) throws java.io.IOException{
 	// 	//(-0.0898,0.7126)
 	// 	//(pi,2.275)
@@ -171,7 +170,6 @@ public class DynamicLandscapes1 extends FitnessFunction{
 	// 	System.out.println("fitness2 = " + fitness2);
 	// 	System.out.println("fitness3 = " + fitness3);
 	// 	System.out.println("fitness4 = " + fitness4);
-=======
 
 	//function 2.6
 	// public static double fitnessFunction5(double x, double y){
@@ -180,6 +178,5 @@ public class DynamicLandscapes1 extends FitnessFunction{
 
 	// 	return fitness;
 	// 	//min @ f(x1,x2)=0.397887; (x1,x2)=(-pi,12.275), (pi,2.275), (9.42478,2.475).
->>>>>>> 53dfdd42851c25a8e9b1b184ffb184f7aba71cad:src/DynamicLandscapes.java
 	// }
 }   // End of DynamicLandscapes.java ******************************************************
