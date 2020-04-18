@@ -58,6 +58,7 @@ public class Chromo
 		int start = geneID * Parameters.geneSize;
 		int end = (geneID+1) * Parameters.geneSize;
 		String geneAlpha = this.chromo.substring(start, end);
+		//System.out.print(" GeneAlpha= " + geneAlpha + " \n");
 		return (geneAlpha);
 	}
 
@@ -68,12 +69,14 @@ public class Chromo
 		char geneBit;
 		geneValue = 0;
 		geneAlpha = getGeneAlpha(geneID);
+		//System.out.print(" GeneAlpha= " + geneAlpha + " ");
 		for (int i=(Parameters.geneSize/2)-1; i>=1; i--){
 			geneBit = geneAlpha.charAt(i);
-			if (geneBit == '1') geneValue = geneValue + (1/Math.pow(2.0, ((Parameters.geneSize/2)-i-1)));
+			if (geneBit == '1') geneValue = geneValue + (1/Math.pow(2.0, ((Parameters.geneSize/2)-i)));
 		}
 		geneSign = geneAlpha.charAt(0);
 		if (geneSign == '1') geneValue = geneValue*-1;
+		//System.out.print(" x= " + geneValue + "\n");
 		return (geneValue);
 	}
 
@@ -84,12 +87,14 @@ public class Chromo
 		char geneBit;
 		geneValue = 0;
 		geneAlpha = getGeneAlpha(geneID);
+		//System.out.print(" GeneAlpha= " + geneAlpha + " ");
 		for (int i=Parameters.geneSize-1; i>=(Parameters.geneSize/2)+1; i--){
 			geneBit = geneAlpha.charAt(i);
-			if (geneBit == '1') geneValue = geneValue + (1/Math.pow(2.0, (Parameters.geneSize-i-1)));
+			if (geneBit == '1') geneValue = geneValue + (1/Math.pow(2.0, (Parameters.geneSize-i)));
 		}
 		geneSign = geneAlpha.charAt((Parameters.geneSize/2));
 		if (geneSign == '1') geneValue = geneValue*-1;
+		//System.out.print(" y= " + geneValue + "\n");
 		return (geneValue);
 	}
 
@@ -165,6 +170,7 @@ public class Chromo
 		double rWheel = 0;
 		int j = 0;
 		int k = 0;
+		int l = 0;
 
 		switch (Parameters.selectType){
 
@@ -176,13 +182,31 @@ public class Chromo
 			}
 			break;
 
+		case 2:     // Tournament Selection
+			randnum = Search.r.nextDouble();
+			for (j=0; j<Parameters.popSize; j++){
+				k= Search.r.nextInt(Parameters.popSize);
+				l= Search.r.nextInt(Parameters.popSize);
+				if(Search.member[k].proFitness>Search.member[l].proFitness){
+					if(randnum < 0.8)
+						return (k);
+					else
+						return (l);
+				}
+			}
+
 		case 3:     // Random Selection
 			randnum = Search.r.nextDouble();
 			j = (int) (randnum * Parameters.popSize);
 			return(j);
-
-		case 2:     //  Tournament Selection
-
+			
+		case 4:     // Rank Selection
+			randnum = Search.r.nextDouble();
+			for (j=0; j<Parameters.popSize; j++){
+				rWheel = rWheel + Search.member[j].proFitness;
+				if (randnum < rWheel) return(j);
+			}
+			break;
 		default:
 			System.out.println("ERROR - No selection method selected");
 		}

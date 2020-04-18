@@ -8,7 +8,7 @@ import java.util.*;
 import java.text.*;
 import java.lang.Math;
 
-public class DynamicLandscapes extends FitnessFunction{
+public class Test{
 
 /*******************************************************************************
 *                            INSTANCE VARIABLES                                *
@@ -24,9 +24,9 @@ public class DynamicLandscapes extends FitnessFunction{
 *                              CONSTRUCTORS                                    *
 *******************************************************************************/
 
-	public DynamicLandscapes(){
-		name = "DynamicLandscapes Problem1";
-	}
+	// public DynamicLandscapes1(){
+	// 	name = "DynamicLandscapes Problem 1";
+	// }
 
 /*******************************************************************************
 *                                MEMBER METHODS                                *
@@ -37,9 +37,12 @@ public class DynamicLandscapes extends FitnessFunction{
 	public void doRawFitness(Chromo X){
 		double x, y;
 		for (int j=0; j<Parameters.numGenes;j++){
-			x= X.getXGeneValue(j)*3;
-			y= X.getYGeneValue(j)*2;
+			x= X.getXGeneValue(j);
+			//System.out.print("x = " + x + " ");
+			y= X.getYGeneValue(j);
+			//System.out.print("y = " + y + "  ");
 			X.rawFitness= (4-2.1*Math.pow(x, 2)+(Math.pow(x, 4)/3))*Math.pow(x, 2)+x*y+(-4+4*Math.pow(y, 2))*Math.pow(y, 2);
+			//System.out.print("fit = " + X.rawFitness + " \n");
 		}		
 		// return fitness;
 		//range -3<=x<=3, -2<=y<=2
@@ -58,12 +61,26 @@ public class DynamicLandscapes extends FitnessFunction{
 		for (int i=0; i<Parameters.numGenes; i++){
 			Hwrite.right(X.getPosIntGeneValue(i),11,output);
 		}
-		Hwrite.right((int) X.rawFitness,13,output);
+		Hwrite.right( X.rawFitness,13,output);
 		output.write("\n\n");
 		return;
 	}
 
-	//sinusoidal landscape
+
+	//function 2.6
+	// public static double fitnessFunction5(double x, double y){
+	// 	double fitness = 0.0;
+		
+		
+	// 	return fitness;
+	// 	//min @ f(x1,x2)=0.397887; (x1,x2)=(-pi,12.275), (pi,2.275), (9.42478,2.475).
+	// }
+
+
+/*******************************************************************************
+*                             STATIC METHODS                                   *
+*******************************************************************************/
+//sinusoidal landscape
 	public static double fitnessFunction1(double x, double y){
 		double fitness = 0.0;
 		fitness= Math.sin(x/3) + Math.cos (y);
@@ -118,35 +135,47 @@ public class DynamicLandscapes extends FitnessFunction{
 		//max @ 500, (x, y)= −31.97833
 	}
 
-	//function 2.6
-	// public static double fitnessFunction5(double x, double y){
-	// 	double fitness = 0.0;
-		
-		
-	// 	return fitness;
-	// 	//min @ f(x1,x2)=0.397887; (x1,x2)=(-pi,12.275), (pi,2.275), (9.42478,2.475).
-	// }
-
-
-/*******************************************************************************
-*                             STATIC METHODS                                   *
-*******************************************************************************/
 	public static void main(String[] args) throws java.io.IOException{
 		//(-0.0898,0.7126)
 		//(pi,2.275)
 		//-31.97833
 
-		double x= -31;
-		double y= -65.97833;
-		double fitness1, fitness2, fitness3, fitness4;
-		fitness1= fitnessFunction1(x, y);
-		fitness2= fitnessFunction2(x, y);
-		fitness3= fitnessFunction3(x, y);
-		fitness4= fitnessFunction4(x, y);
-		System.out.println("fitness1 = " + fitness1);
-		System.out.println("fitness2 = " + fitness2);
-		System.out.println("fitness3 = " + fitness3);
-		System.out.println("fitness4 = " + fitness4);
+		// double x= -31;
+		// double y= -65.97833;
+		// double fitness1, fitness2, fitness3, fitness4;
+		// fitness1= fitnessFunction1(x, y);
+		// fitness2= fitnessFunction2(x, y);
+		// fitness3= fitnessFunction3(x, y);
+		// fitness4= fitnessFunction4(x, y);
+		// System.out.println("fitness1 = " + fitness1);
+		// System.out.println("fitness2 = " + fitness2);
+		// System.out.println("fitness3 = " + fitness3);
+		// System.out.println("fitness4 = " + fitness4);
+        String geneAlpha = "11111001";
+		double geneX;
+        double geneY;
+		char geneSign;
+		char geneBit;
+		geneX = 0;
+        geneY=0;
+		System.out.print(" GeneAlpha= " + geneAlpha + " ");
+        //x value
+		for (int i=(8/2)-1; i>=1; i--){
+			geneBit = geneAlpha.charAt(i);
+			if (geneBit == '1') geneX+= Math.pow(2.0, -1*((8/2)-i));
+		}
+		geneSign = geneAlpha.charAt(0);
+		if (geneSign == '1') geneX = geneX*-1;
+		System.out.print(" x= " + geneX + "\n");
+
+        //y value
+        for (int i=8-1; i>=(8/2)+1; i--){
+			geneBit = geneAlpha.charAt(i);
+			if (geneBit == '1') geneY+= Math.pow(2.0, -1*(8-i));
+		}
+		geneSign = geneAlpha.charAt((8/2));
+		if (geneSign == '1') geneY = geneY*-1;
+        System.out.print(" y= " + geneY + "\n");
 	}
 }   // End of DynamicLandscapes.java ******************************************************
 

@@ -20,6 +20,7 @@ Notes:
 1)  Selection Type Codes    1 = Proportional Selection
 							2 = Tournament Selection
 							3 = Random Selection
+							4 = Rank Selection
 
 2)  Fitness Scaling Type    0 = Scale for Maximization (no change to raw fitness)
 							1 = Scale for Minimization (reciprocal of raw fitness)
