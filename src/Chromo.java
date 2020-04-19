@@ -138,7 +138,16 @@ public class Chromo
 	public void doMutation(){
 
 		String mutChromo = "";
-		char x;
+        char x;
+        double mutationRate;
+
+        // Use hypermutation if enabled
+        if (Parameters.usingHypermutation) {
+            mutationRate = Parameters.hypermutationRate;
+        }
+        else {
+            mutationRate = Parameters.mutationRate;
+        }
 
 		switch (Parameters.mutationType){
 
@@ -147,7 +156,7 @@ public class Chromo
 			for (int j=0; j<(Parameters.geneSize * Parameters.numGenes); j++){
 				x = this.chromo.charAt(j);
 				randnum = Search.r.nextDouble();
-				if (randnum < Parameters.mutationRate){
+				if (randnum < mutationRate){
 					if (x == '1') x = '0';
 					else x = '1';
 				}
@@ -275,7 +284,7 @@ public class Chromo
 
             if      (dominantChromo ==  1) { // Candidate 1 dominates candidate 2
                 randnum = Search.r.nextDouble();
-                if (randnum < 0.7) {
+                if (randnum < Parameters.tournamentRate) {
                     return j;
                 }
                 else {
@@ -284,7 +293,7 @@ public class Chromo
             }
             else if (dominantChromo == -1) { // Candidate 2 dominates candidate 1
                 randnum = Search.r.nextDouble();
-                if (randnum < 0.7) {
+                if (randnum < Parameters.tournamentRate) {
                     return k;
                 }
                 else {
