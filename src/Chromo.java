@@ -167,6 +167,49 @@ public class Chromo
 
 	//  Select a parent for crossover ******************************************
 
+    private static int findDominant(Chromo candidate1, Chromo candidate2) {
+        int rawFitnessComparison;
+        int noveltyFitnessComparison;
+
+        // Compare raw fitnesses
+        if (candidate1.rawFitness > candidate2.rawFitness) {
+            rawFitnessComparison = 1;  // candidate1 has higher rawFitness
+        }
+        else if (candidate1.rawFitness < candidate2.rawFitness) {
+            rawFitnessComparison = -1; // candidate2 has higher rawFitness
+        }
+        else {
+            rawFitnessComparison = 0;  // rawFitnesses are equal
+        }
+        
+        // Compare novelty fitnesses
+        if (candidate1.noveltyFitness > candidate2.noveltyFitness) {
+            noveltyFitnessComparison = 1;  // candidate1 has higher noveltyFitness
+        }
+        else if (candidate1.noveltyFitness < candidate2.noveltyFitness) {
+            noveltyFitnessComparison = -1; // candidate2 has higher noveltyFitness
+        }
+        else {
+            noveltyFitnessComparison = 0;  // noveltyFitnesses are equal
+        }
+        
+        // Return the dominant chromo
+        if      ((rawFitnessComparison ==  1) && (noveltyFitnessComparison ==  1) ||
+                 (rawFitnessComparison ==  1) && (noveltyFitnessComparison ==  0) ||
+                 (rawFitnessComparison ==  0) && (noveltyFitnessComparison ==  1)) {
+            return 1;
+        }
+        else if ((rawFitnessComparison == -1) && (noveltyFitnessComparison == -1) ||
+                 (rawFitnessComparison == -1) && (noveltyFitnessComparison ==  0) ||
+                 (rawFitnessComparison ==  0) && (noveltyFitnessComparison == -1)) {
+            return -1;
+        }
+        else {
+            return 0;
+        }
+        
+    }
+
 	public static int selectParent(){
 
 		double rWheel = 0;
@@ -201,6 +244,7 @@ public class Chromo
 			randnum = Search.r.nextDouble();
 			j = (int) (randnum * Parameters.popSize);
 			return(j);
+<<<<<<< HEAD
 			
 		case 4:     // Rank Selection
 			randnum = Search.r.nextDouble();
@@ -209,6 +253,51 @@ public class Chromo
 				if (randnum < rWheel) return(j);
 			}
 			break;
+=======
+
+		case 2:     //  Tournament Selection
+            randnum = Search.r.nextDouble();
+            j = (int) (randnum * Parameters.popSize);
+            randnum = Search.r.nextDouble();
+            k = (int) (randnum * Parameters.popSize);
+            while (j == k) {
+                randnum = Search.r.nextDouble();
+                k = (int) (randnum * Parameters.popSize);
+            }
+            Chromo candidate1 = Search.member[j];
+            Chromo candidate2 = Search.member[k];
+            int dominantChromo = findDominant(candidate1, candidate2);
+
+            if      (dominantChromo ==  1) { // Candidate 1 dominates candidate 2
+                randnum = Search.r.nextDouble();
+                if (randnum < 0.7) {
+                    return j;
+                }
+                else {
+                    return k;
+                }
+            }
+            else if (dominantChromo == -1) { // Candidate 2 dominates candidate 1
+                randnum = Search.r.nextDouble();
+                if (randnum < 0.7) {
+                    return k;
+                }
+                else {
+                    return j;
+                }
+            }
+            else                           { // Neither candidate dominates the other
+                randnum = Search.r.nextDouble();
+                if (randnum < 0.5) { 
+                    return j;
+                }
+                else {
+                    return k;
+                }
+            }
+
+
+>>>>>>> ec0f4a920b49852d48793df69956e013c3afa771
 		default:
 			System.out.println("ERROR - No selection method selected");
 		}
