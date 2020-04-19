@@ -40,6 +40,7 @@ public class Parameters
 	public static int geneSize;
 
 	public static int species;
+	public static double crossbreedRate;
 
 /*******************************************************************************
 *                              CONSTRUCTORS                                    *
@@ -72,6 +73,7 @@ public class Parameters
 		geneSize = Integer.parseInt(parmInput.readLine().substring(30).trim());
 
 		species = Integer.parseInt(parmInput.readLine().substring(30).trim());
+		crossbreedRate = Double.parseDouble(parmInput.readLine().substring(30).trim());
 
 		parmInput.close();
 

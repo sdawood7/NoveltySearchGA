@@ -162,7 +162,7 @@ public class Chromo
 
 	//  Select a parent for crossover ******************************************
 
-	public static int selectParent(){
+	public static Chromo selectParent(ArrayList<Chromo> species){
 
 		double rWheel = 0;
 		int j = 0;
@@ -174,26 +174,30 @@ public class Chromo
 			randnum = Search.r.nextDouble();
 			for (j=0; j<Parameters.popSize; j++){
 				rWheel = rWheel + Search.member[j].proFitness;
-				if (randnum < rWheel) return(j);
+				if (randnum < rWheel) return(Search.member[j]);
 			}
 			break;
 
 		case 3:     // Random Selection
 			randnum = Search.r.nextDouble();
 			j = (int) (randnum * Parameters.popSize);
-			return(j);
+			//return(j);
 
 		case 2:     //  Tournament Selection
+			if(species.size() == 1) // Return if only one member in species
+			{
+				return species.get(0);
+			}
 
 		default:
 			System.out.println("ERROR - No selection method selected");
 		}
-	return(-1);
+	return(null);
 	}
 
 	//  Produce a new child from two parents  **********************************
 
-	public static void mateParents(int pnum1, int pnum2, Chromo parent1, Chromo parent2, Chromo child1, Chromo child2){
+	public static void mateParents(Chromo parent1, Chromo parent2, Chromo child1, Chromo child2){
 
 		int xoverPoint1;
 		int xoverPoint2;
@@ -229,7 +233,7 @@ public class Chromo
 
 	//  Produce a new child from a single parent  ******************************
 
-	public static void mateParents(int pnum, Chromo parent, Chromo child){
+	public static void mateParents(Chromo parent, Chromo child){
 
 		//  Create child chromosome from parental material
 		child.chromo = parent.chromo;
