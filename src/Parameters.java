@@ -39,8 +39,18 @@ public class Parameters
 	public static int numGenes;
 	public static int geneSize;
 
-	public static int species;
-	public static double crossbreedRate;
+    public static int species;
+    public static double crossbreedRate;
+  
+    public static double hypermutationRate;
+    public static int hypermutationLength;
+    public static int hypermutationFrequency;
+
+    public static double tournamentRate;
+
+    public static boolean usingHypermutation = false;
+
+    private static int numGensUsingHypermutation;
 
 /*******************************************************************************
 *                              CONSTRUCTORS                                    *
@@ -71,9 +81,14 @@ public class Parameters
 		seed = Long.parseLong(parmInput.readLine().substring(30).trim());
 		numGenes = Integer.parseInt(parmInput.readLine().substring(30).trim());
 		geneSize = Integer.parseInt(parmInput.readLine().substring(30).trim());
+        species = Integer.parseInt(parmInput.readLine().substring(30).trim());
+        crossbreedRate = Double.parseDouble(parmInput.readLine().substring(30).trim());
+        
+        hypermutationRate = Double.parseDouble(parmInput.readLine().substring(30).trim());
+        hypermutationLength = Integer.parseInt(parmInput.readLine().substring(30).trim());
+        hypermutationFrequency = Integer.parseInt(parmInput.readLine().substring(30).trim());
 
-		species = Integer.parseInt(parmInput.readLine().substring(30).trim());
-		crossbreedRate = Double.parseDouble(parmInput.readLine().substring(30).trim());
+        tournamentRate = Double.parseDouble(parmInput.readLine().substring(30).trim());
 
 		parmInput.close();
 
@@ -86,17 +101,29 @@ public class Parameters
 *                                MEMBER METHODS                                *
 *******************************************************************************/
 
-
 /*******************************************************************************
-*                             STATIC METHODS                                   *
-*******************************************************************************/
+ *                             STATIC METHODS                                   *
+ *******************************************************************************/
 
-	public static void outputParameters(FileWriter output) throws java.io.IOException{
+    public static void changeMutationType(int generationCount) {
+        if (usingHypermutation) {
+            numGensUsingHypermutation++;
+            if (numGensUsingHypermutation > hypermutationLength) {
+                usingHypermutation = false;
+            }
+        }
 
+        if ((generationCount % hypermutationFrequency) == 0) {
+            usingHypermutation = true;
+        }
+    }
 
-		output.write("Experiment ID                :  " + expID + "\n");
-		output.write("Problem Type                 :  " + problemType + "\n");
-
+public static void outputParameters(FileWriter output) throws java.io.IOException{
+    
+    
+    output.write("Experiment ID                :  " + expID + "\n");
+    output.write("Problem Type                 :  " + problemType + "\n");
+    
 		output.write("Data Input File Name         :  " + dataInputFileName + "\n");
 
 		output.write("Number of Runs               :  " + numRuns + "\n");

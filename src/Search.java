@@ -155,7 +155,9 @@ public class Search {
 				sumRawFitness2 = 0;
 				sumNoveltyFitness2 = 0;
 				bestOfGenChromo.rawFitness = defaultBest;
-				bestOfGenChromo.noveltyFitness = 0;
+                bestOfGenChromo.noveltyFitness = 0;
+                
+                Parameters.changeMutationType(G);
 
 				//	Test Fitness of Each Member
 				for (int i=0; i<Parameters.popSize; i++){

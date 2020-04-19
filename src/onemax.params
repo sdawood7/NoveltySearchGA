@@ -15,6 +15,10 @@ Number of Genes/Points (7)   :1
 Size of Genes (18)           :100
 Species                      :10
 Crossbreed Rate              :0.2
+Hypermutation Rate           :0.7
+Hypermutation Length         :5
+Hypermutation Frequency      :15
+Tournament Rate              :0.7
 
 Notes:
 
