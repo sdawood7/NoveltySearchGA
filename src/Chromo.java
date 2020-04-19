@@ -279,7 +279,6 @@ public class Chromo
                 }
             }
 
-
 		default:
 			System.out.println("ERROR - No selection method selected");
 		}
