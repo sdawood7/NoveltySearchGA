@@ -196,7 +196,7 @@ public class Chromo
 			this.chromo = mutChromo;
 
 
-			break;	
+			break;
 
 		default:
 			System.out.println("ERROR - No mutation method selected");
@@ -316,7 +316,7 @@ public class Chromo
 		case 3:     // Random Selection
 			randnum = Search.r.nextDouble();
 			j = (int) (randnum * Parameters.popSize);
-			return(j);
+			return species.get(j);
 
 		default:
 			System.out.println("ERROR - No selection method selected");

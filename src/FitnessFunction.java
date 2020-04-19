@@ -36,7 +36,7 @@ class FitnessFunction{
 //  COMPUTE A CHROMOSOME'S RAW FITNESS *************************************
 
 	public void doRawFitness(Chromo X, int G){
-		System.out.println("Executing FF Raw Fitness");
+		//System.out.println("Executing FF Raw Fitness");
 	}
 
 	public void assessNovelty(Chromo X)
