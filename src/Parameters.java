@@ -34,6 +34,7 @@ public class Parameters
 	public static double xoverRate;
 	public static int mutationType;
 	public static double mutationRate;
+	public static double mutationRate2;
 
 	public static long seed;
 	public static int numGenes;
@@ -77,6 +78,8 @@ public class Parameters
 		xoverRate = Double.parseDouble(parmInput.readLine().substring(30).trim());
 		mutationType = Integer.parseInt(parmInput.readLine().substring(30).trim());
 		mutationRate = Double.parseDouble(parmInput.readLine().substring(30).trim());
+		mutationRate2 = Double.parseDouble(parmInput.readLine().substring(30).trim());
+
 
 		seed = Long.parseLong(parmInput.readLine().substring(30).trim());
 		numGenes = Integer.parseInt(parmInput.readLine().substring(30).trim());
@@ -138,6 +141,7 @@ public static void outputParameters(FileWriter output) throws java.io.IOExceptio
 		output.write("Crossover Rate               :  " + xoverRate + "\n");
 		output.write("Mutation Type                :  " + mutationType + "\n");
 		output.write("Mutation Rate                :  " + mutationRate + "\n");
+		output.write("Mutation Rate 2              :  " + mutationRate2 + "\n");
 
 		output.write("Random Number Seed           :  " + seed + "\n");
 		output.write("Number of Genes/Points       :  " + numGenes + "\n");

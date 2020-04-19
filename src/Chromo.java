@@ -60,6 +60,7 @@ public class Chromo
 		int start = geneID * Parameters.geneSize;
 		int end = (geneID+1) * Parameters.geneSize;
 		String geneAlpha = this.chromo.substring(start, end);
+		//System.out.print(" GeneAlpha= " + geneAlpha + " \n");
 		return (geneAlpha);
 	}
 
@@ -70,12 +71,14 @@ public class Chromo
 		char geneBit;
 		geneValue = 0;
 		geneAlpha = getGeneAlpha(geneID);
+		//System.out.print(" GeneAlpha= " + geneAlpha + " ");
 		for (int i=(Parameters.geneSize/2)-1; i>=1; i--){
 			geneBit = geneAlpha.charAt(i);
-			if (geneBit == '1') geneValue = geneValue + (1/Math.pow(2.0, ((Parameters.geneSize/2)-i-1)));
+			if (geneBit == '1') geneValue = geneValue + (1/Math.pow(2.0, ((Parameters.geneSize/2)-i)));
 		}
 		geneSign = geneAlpha.charAt(0);
 		if (geneSign == '1') geneValue = geneValue*-1;
+		//System.out.print(" x= " + geneValue + "\n");
 		return (geneValue);
 	}
 
@@ -86,12 +89,14 @@ public class Chromo
 		char geneBit;
 		geneValue = 0;
 		geneAlpha = getGeneAlpha(geneID);
+		//System.out.print(" GeneAlpha= " + geneAlpha + " ");
 		for (int i=Parameters.geneSize-1; i>=(Parameters.geneSize/2)+1; i--){
 			geneBit = geneAlpha.charAt(i);
-			if (geneBit == '1') geneValue = geneValue + (1/Math.pow(2.0, (Parameters.geneSize-i-1)));
+			if (geneBit == '1') geneValue = geneValue + (1/Math.pow(2.0, (Parameters.geneSize-i)));
 		}
 		geneSign = geneAlpha.charAt((Parameters.geneSize/2));
 		if (geneSign == '1') geneValue = geneValue*-1;
+		//System.out.print(" y= " + geneValue + "\n");
 		return (geneValue);
 	}
 
@@ -160,6 +165,39 @@ public class Chromo
 			this.chromo = mutChromo;
 			break;
 
+		case 2:     //  Random Immigrants attempt
+
+			//changes certain genes
+			for (int i=0; i<Parameters.numGenes; i++){
+				randnum = Search.r.nextDouble();
+				if (randnum < Parameters.mutationRate2){
+					char[] testChromo = this.chromo.toCharArray();
+					char geneBit;
+					for (int j=0; j<Parameters.geneSize; j++){
+						randnum = Search.r.nextDouble();
+						if (randnum > 0.5) geneBit = '0';
+						else geneBit = '1';
+						testChromo[j+(i*Parameters.geneSize)]= geneBit;
+					}
+					this.chromo = String.valueOf(testChromo);
+				}
+			}
+
+			//still does regular mutation
+			for (int j=0; j<(Parameters.geneSize * Parameters.numGenes); j++){
+				x = this.chromo.charAt(j);
+				randnum = Search.r.nextDouble();
+				if (randnum < Parameters.mutationRate){
+					if (x == '1') x = '0';
+					else x = '1';
+				}
+				mutChromo = mutChromo + x;
+			}
+			this.chromo = mutChromo;
+
+
+			break;	
+
 		default:
 			System.out.println("ERROR - No mutation method selected");
 		}
@@ -219,6 +257,7 @@ public class Chromo
 		double rWheel = 0;
 		int j = 0;
 		int k = 0;
+		int l = 0;
 
 		switch (Parameters.selectType){
 
@@ -229,11 +268,6 @@ public class Chromo
 				if (randnum < rWheel) return(Search.member[j]);
 			}
 			break;
-
-		case 3:     // Random Selection
-			randnum = Search.r.nextDouble();
-			j = (int) (randnum * Parameters.popSize);
-			//return(j);
 
 		case 2:     //  Tournament Selection
 						if(species.size() == 1)
@@ -279,6 +313,10 @@ public class Chromo
                 }
             }
 
+		case 3:     // Random Selection
+			randnum = Search.r.nextDouble();
+			j = (int) (randnum * Parameters.popSize);
+			return(j);
 
 		default:
 			System.out.println("ERROR - No selection method selected");

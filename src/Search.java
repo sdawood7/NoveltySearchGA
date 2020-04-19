@@ -23,14 +23,14 @@ public class Search {
 	public static Chromo[] child;
 
 	public static Chromo bestOfGenChromo;
-	public static int bestOfGenR;
-	public static int bestOfGenG;
+	public static double bestOfGenR;
+	public static double bestOfGenG;
 	public static Chromo bestOfRunChromo;
-	public static int bestOfRunR;
-	public static int bestOfRunG;
+	public static double bestOfRunR;
+	public static double bestOfRunG;
 	public static Chromo bestOverAllChromo;
-	public static int bestOverAllR;
-	public static int bestOverAllG;
+	public static double bestOverAllR;
+	public static double bestOverAllG;
 
 	public static double sumRawFitness;
 	public static double sumRawFitness2;	// sum of squares of fitness
@@ -103,9 +103,9 @@ public class Search {
 		else if (Parameters.problemType.equals("OM")){
 				problem = new OneMax();
 		}
-		// else if (Parameters.problemType.equals("DL")){
-		// 		problem = new DynamicLandscapes();
-		// }
+		else if (Parameters.problemType.equals("DL1")){
+				problem = new DynamicLandscapes1();
+		}
 		else System.out.println("Invalid Problem Type");
 
 		System.out.println(problem.name);
@@ -166,7 +166,7 @@ public class Search {
 					member[i].sclFitness = 0;
 					member[i].proFitness = 0;
 
-					problem.doRawFitness(member[i]);
+					problem.doRawFitness(member[i], G);
 
 					sumRawFitness = sumRawFitness + member[i].rawFitness;
 					sumRawFitness2 = sumRawFitness2 +
@@ -237,7 +237,7 @@ public class Search {
 							);
 
 				// Output generation statistics to screen
-				System.out.println(R + "\t" + G +  "\t" + (int)bestOfGenChromo.rawFitness + "\t" + averageRawFitness + "\t"
+				System.out.println(R + "\t" + G +  "\t" + bestOfGenChromo.rawFitness + "\t" + averageRawFitness + "\t"
 				+ stdevRawFitness + "\t\t" + bestOfGenChromo.noveltyFitness + "\t" + averageNoveltyFitness + "\t" + stdevNoveltyFitness);
 
 				// Output generation statistics to summary file
@@ -245,7 +245,7 @@ public class Search {
 				Hwrite.right(R, 3, summaryOutput);
 				summaryOutput.write(" G ");
 				Hwrite.right(G, 3, summaryOutput);
-				Hwrite.right((int)bestOfGenChromo.rawFitness, 7, summaryOutput);
+				Hwrite.right(bestOfGenChromo.rawFitness, 7, summaryOutput);
 				Hwrite.right(averageRawFitness, 11, 3, summaryOutput);
 				Hwrite.right(stdevRawFitness, 11, 3, summaryOutput);
 				Hwrite.right((int)bestOfGenChromo.noveltyFitness, 7, summaryOutput);
