@@ -52,14 +52,14 @@ public class DynamicLandscapes{
 		X.noveltyFitness = 0;
 
 		// Grab the species array list
-		ArrayList<String> currentSpecies = KModes.speciesList.get(X.speciesKey);
+		ArrayList<Chromo> currentSpecies = KModes.speciesList.get(X.speciesKey);
 		// TODO: Loop through this chromo's species and accumulate hammingDistance score
 		for(int i = 0; i < currentSpecies.size(); i++)
 		{
-			if(currentSpecies.get(i) != X.chromo)
+			if(currentSpecies.get(i).chromo != X.chromo)
 			{
 				// Accumulate score
-				X.noveltyFitness += KModes.hammingDistance(currentSpecies.get(i), X.chromo);
+				X.noveltyFitness += KModes.hammingDistance(currentSpecies.get(i).chromo, X.chromo);
 			}
 		}
 		// TODO: Average the distance score and save to noveltyFitness score
