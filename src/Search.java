@@ -399,6 +399,8 @@ public class Search {
 						}
 					}
 
+					//System.out.println("\nSpecies1 : " + parent1.speciesKey + "\nSpecies2 : " + parent2.speciesKey);
+
 					//	Crossover Two Parents to Create Two Children
 					randnum = r.nextDouble();
 					if (randnum < Parameters.xoverRate){
