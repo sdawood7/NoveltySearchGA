@@ -45,6 +45,8 @@ public class Parameters
     public static int hypermutationLength;
     public static int hypermutationFrequency;
 
+    public static double tournamentRate;
+
     public static boolean usingHypermutation = false;
 
     private static int numGensUsingHypermutation;
@@ -84,6 +86,8 @@ public class Parameters
         hypermutationRate = Double.parseDouble(parmInput.readLine().substring(30).trim());
         hypermutationLength = Integer.parseInt(parmInput.readLine().substring(30).trim());
         hypermutationFrequency = Integer.parseInt(parmInput.readLine().substring(30).trim());
+
+        tournamentRate = Double.parseDouble(parmInput.readLine().substring(30).trim());
 
 		parmInput.close();
 
