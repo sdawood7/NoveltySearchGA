@@ -227,43 +227,46 @@ public class Chromo
 			//return(j);
 
 		case 2:     //  Tournament Selection
+						if(species.size() == 1)
+							return species.get(0);
+
             randnum = Search.r.nextDouble();
-            j = (int) (randnum * Parameters.popSize);
+            j = (int) (randnum * species.size());
             randnum = Search.r.nextDouble();
-            k = (int) (randnum * Parameters.popSize);
+            k = (int) (randnum * species.size());
             while (j == k) {
                 randnum = Search.r.nextDouble();
-                k = (int) (randnum * Parameters.popSize);
+                k = (int) (randnum * species.size());
             }
-            Chromo candidate1 = Search.member[j];
-            Chromo candidate2 = Search.member[k];
+            Chromo candidate1 = species.get(j);
+            Chromo candidate2 = species.get(k);
             int dominantChromo = findDominant(candidate1, candidate2);
 
             if      (dominantChromo ==  1) { // Candidate 1 dominates candidate 2
                 randnum = Search.r.nextDouble();
                 if (randnum < 0.7) {
-                    return j;
+                    return species.get(j);
                 }
                 else {
-                    return k;
+                    return species.get(k);
                 }
             }
             else if (dominantChromo == -1) { // Candidate 2 dominates candidate 1
                 randnum = Search.r.nextDouble();
                 if (randnum < 0.7) {
-                    return k;
+                    return species.get(k);
                 }
                 else {
-                    return j;
+                    return species.get(j);
                 }
             }
             else                           { // Neither candidate dominates the other
                 randnum = Search.r.nextDouble();
                 if (randnum < 0.5) {
-                    return j;
+                    return species.get(j);
                 }
                 else {
-                    return k;
+                    return species.get(k);
                 }
             }
 
