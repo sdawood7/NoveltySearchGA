@@ -158,9 +158,10 @@ public class Chromo
 
 		case 2:     //  Random Immigrants attempt
 
+			//changes certain genes
 			for (int i=0; i<Parameters.numGenes; i++){
 				randnum = Search.r.nextDouble();
-				if (randnum < Parameters.mutationRate){
+				if (randnum < Parameters.mutationRate2){
 					char[] testChromo = this.chromo.toCharArray();
 					char geneBit;
 					for (int j=0; j<Parameters.geneSize; j++){
@@ -173,10 +174,19 @@ public class Chromo
 				}
 			}
 
-		// String myName = "domanokz";
-		// char[] myNameChars = myName.toCharArray();
-		// myNameChars[4] = 'x';
-		// myName = String.valueOf(myNameChars);
+			//still does regular mutation
+			for (int j=0; j<(Parameters.geneSize * Parameters.numGenes); j++){
+				x = this.chromo.charAt(j);
+				randnum = Search.r.nextDouble();
+				if (randnum < Parameters.mutationRate){
+					if (x == '1') x = '0';
+					else x = '1';
+				}
+				mutChromo = mutChromo + x;
+			}
+			this.chromo = mutChromo;
+
+
 			break;	
 
 		default:

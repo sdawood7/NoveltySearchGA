@@ -8,11 +8,12 @@ Selection Method (1)         :1
 Fitness Scaling Type (2)     :3
 Crossover Type (3)           :1
 Crossover Rate (4)           :0.8
-Mutation Type (5)            :1
+Mutation Type (5)            :2
 Mutation Rate (6)            :0.005
+Mutation Rate 2 (7)          :0.2
 Random Number Seed           :75982
-Number of Genes/Points (7)   :1
-Size of Genes (8)            :32
+Number of Genes/Points (8)   :1
+Size of Genes (9)            :32
 Species                      :10
 
 Notes:
@@ -33,10 +34,13 @@ Notes:
 4)  Crossover Rates from 0 to 1, Use "0" to turn off crossover
 
 5)  Mutation Type Codes     1 = Flip Bit
+							2 = Random Immigrants with regular flip bit
 
 6)  Mutation Rates from 0 to 1, Use "0" to turn off mutation
 
-7)	Represents number of genes in each chromosome.
+7)  Mutation Rates for random immigrants and hypermutation
 
-8)	Determines number of bits in each gene.  Number of Genes times Size
+8)	Represents number of genes in each chromosome.
+
+9)	Determines number of bits in each gene.  Number of Genes times Size
 	gives the number of bits in each chromosome.
