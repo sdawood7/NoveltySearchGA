@@ -47,8 +47,6 @@ public class Test{
 		// return fitness;
 		//range -3<=x<=3, -2<=y<=2
 		//min @ f(x1,x2)=-1.0316; (x1,x2)=(-0.0898,0.7126), (0.0898,-0.7126).
-<<<<<<< HEAD:src/Test.java
-=======
 
 		X.rawFitness = 0;
 		for (int z=0; z<Parameters.numGenes * Parameters.geneSize; z++){
@@ -74,7 +72,6 @@ public class Test{
 		// TODO: Average the distance score and save to noveltyFitness score
 		if((currentSpecies.size() - 1) != 0)
 			X.noveltyFitness /= (currentSpecies.size() - 1);
->>>>>>> d10c976a825ccce4367459917fe57090f6d08e04:src/DynamicLandscapes.java
 	}
 
 //  PRINT OUT AN INDIVIDUAL GENE TO THE SUMMARY FILE *********************************

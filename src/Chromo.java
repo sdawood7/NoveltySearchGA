@@ -269,14 +269,6 @@ public class Chromo
 			}
 			break;
 
-<<<<<<< HEAD
-=======
-		case 3:     // Random Selection
-			randnum = Search.r.nextDouble();
-			j = (int) (randnum * Parameters.popSize);
-			//return(j);
-
->>>>>>> d10c976a825ccce4367459917fe57090f6d08e04
 		case 2:     //  Tournament Selection
 						if(species.size() == 1)
 							return species.get(0);
