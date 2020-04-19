@@ -7,7 +7,7 @@ public class KModes
   // Amount of species desired
   private static int speciesCount;
   // Map where key is the cluster centroid, and string array is all members of cluster(species)
-  public static Map<String, ArrayList<String>> speciesList;
+  public static Map<String, ArrayList<Chromo>> speciesList;
 
   public KModes()
   {
@@ -32,7 +32,7 @@ public class KModes
         centroid = Search.r.nextInt(Search.member.length);
       }
 
-      speciesList.put(Search.member[centroid].chromo, new ArrayList<String>());
+      speciesList.put(Search.member[centroid].chromo, new ArrayList<Chromo>());
     }
     // Sort clusters until no more changes need to be made
     while(!sortClusters())
@@ -65,9 +65,9 @@ public class KModes
   // Sort pop members into their clusters, return false if changes were made, true otherwise
   private static boolean sortClusters()
   {
-    ArrayList<String>[] tempClusterList = new ArrayList[speciesCount];
+    ArrayList<Chromo>[] tempClusterList = new ArrayList[speciesCount];
     for (int i = 0; i < speciesCount; i++) {
-            tempClusterList[i] = new ArrayList<String>();
+            tempClusterList[i] = new ArrayList<Chromo>();
         }
 
     boolean noChangeMade = true;
@@ -96,11 +96,11 @@ public class KModes
       }
 
       // Add member to temp arraylist for that cluster
-      tempClusterList[cluster].add(Search.member[i].chromo);
+      tempClusterList[cluster].add(Search.member[i]);
       Search.member[i].speciesKey = clusterKey;
 
       // Check if the member was moved to a different cluster
-      if(!speciesList.get(clusterKey).contains(Search.member[i].chromo))
+      if(!speciesList.get(clusterKey).contains(Search.member[i]))
         noChangeMade = false;
     }
 
@@ -118,7 +118,7 @@ public class KModes
   // Adjust centriod based on cluster
   private static void adjustCentroids()
   {
-    Map<String, ArrayList<String>> newSpeciesList = new HashMap<>();
+    Map<String, ArrayList<Chromo>> newSpeciesList = new HashMap<>();
     // Go through each species and build the new  centroid string
     String newCentroid = "";
     int oneSum;
@@ -136,7 +136,7 @@ public class KModes
         {
           //System.out.println("key " + key + " j " + j +  " i " + i);
           //System.out.println(speciesList.get(key).get(j));
-          if(speciesList.get(key).get(j).charAt(i) == '1')
+          if(speciesList.get(key).get(j).chromo.charAt(i) == '1')
             oneSum++;
           else
             zeroSum++;
@@ -182,7 +182,7 @@ public class KModes
 
   public static void viewSpecies()
   {
-    for(Map.Entry<String, ArrayList<String>> entry : speciesList.entrySet())
+    for(Map.Entry<String, ArrayList<Chromo>> entry : speciesList.entrySet())
     {
       System.out.println(entry.getKey() + ":\t" + entry.getValue().toString() + "\n\n");
     }

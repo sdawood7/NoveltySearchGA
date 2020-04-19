@@ -47,6 +47,34 @@ public class Test{
 		// return fitness;
 		//range -3<=x<=3, -2<=y<=2
 		//min @ f(x1,x2)=-1.0316; (x1,x2)=(-0.0898,0.7126), (0.0898,-0.7126).
+<<<<<<< HEAD:src/Test.java
+=======
+
+		X.rawFitness = 0;
+		for (int z=0; z<Parameters.numGenes * Parameters.geneSize; z++){
+			if (X.chromo.charAt(z) == '1') X.rawFitness += 1;
+		}
+	}
+
+	public static void assessNovelty(Chromo X)
+	{
+		X.noveltyFitness = 0;
+
+		// Grab the species array list
+		ArrayList<Chromo> currentSpecies = KModes.speciesList.get(X.speciesKey);
+		// TODO: Loop through this chromo's species and accumulate hammingDistance score
+		for(int i = 0; i < currentSpecies.size(); i++)
+		{
+			if(currentSpecies.get(i).chromo != X.chromo)
+			{
+				// Accumulate score
+				X.noveltyFitness += KModes.hammingDistance(currentSpecies.get(i).chromo, X.chromo);
+			}
+		}
+		// TODO: Average the distance score and save to noveltyFitness score
+		if((currentSpecies.size() - 1) != 0)
+			X.noveltyFitness /= (currentSpecies.size() - 1);
+>>>>>>> d10c976a825ccce4367459917fe57090f6d08e04:src/DynamicLandscapes.java
 	}
 
 //  PRINT OUT AN INDIVIDUAL GENE TO THE SUMMARY FILE *********************************
