@@ -156,6 +156,29 @@ public class Chromo
 			this.chromo = mutChromo;
 			break;
 
+		case 2:     //  Random Immigrants attempt
+
+			for (int i=0; i<Parameters.numGenes; i++){
+				randnum = Search.r.nextDouble();
+				if (randnum < Parameters.mutationRate){
+					char[] testChromo = this.chromo.toCharArray();
+					char geneBit;
+					for (int j=0; j<Parameters.geneSize; j++){
+						randnum = Search.r.nextDouble();
+						if (randnum > 0.5) geneBit = '0';
+						else geneBit = '1';
+						testChromo[j+(i*Parameters.geneSize)]= geneBit;
+					}
+					this.chromo = String.valueOf(testChromo);
+				}
+			}
+
+		// String myName = "domanokz";
+		// char[] myNameChars = myName.toCharArray();
+		// myNameChars[4] = 'x';
+		// myName = String.valueOf(myNameChars);
+			break;	
+
 		default:
 			System.out.println("ERROR - No mutation method selected");
 		}
@@ -227,34 +250,6 @@ public class Chromo
 			}
 			break;
 
-		case 2:     // Tournament Selection
-			randnum = Search.r.nextDouble();
-			for (j=0; j<Parameters.popSize; j++){
-				k= Search.r.nextInt(Parameters.popSize);
-				l= Search.r.nextInt(Parameters.popSize);
-				if(Search.member[k].proFitness>Search.member[l].proFitness){
-					if(randnum < 0.8)
-						return (k);
-					else
-						return (l);
-				}
-			}
-
-		case 3:     // Random Selection
-			randnum = Search.r.nextDouble();
-			j = (int) (randnum * Parameters.popSize);
-			return(j);
-<<<<<<< HEAD
-			
-		case 4:     // Rank Selection
-			randnum = Search.r.nextDouble();
-			for (j=0; j<Parameters.popSize; j++){
-				rWheel = rWheel + Search.member[j].proFitness;
-				if (randnum < rWheel) return(j);
-			}
-			break;
-=======
-
 		case 2:     //  Tournament Selection
             randnum = Search.r.nextDouble();
             j = (int) (randnum * Parameters.popSize);
@@ -296,8 +291,11 @@ public class Chromo
                 }
             }
 
+		case 3:     // Random Selection
+			randnum = Search.r.nextDouble();
+			j = (int) (randnum * Parameters.popSize);
+			return(j);
 
->>>>>>> ec0f4a920b49852d48793df69956e013c3afa771
 		default:
 			System.out.println("ERROR - No selection method selected");
 		}
