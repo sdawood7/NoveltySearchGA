@@ -54,6 +54,9 @@ public class Search {
 
 	private static double fitnessStats[][];  // 0=Avg, 1=Best
 
+	public static boolean osc;
+	public static boolean trans;
+
 /*******************************************************************************
 *                              CONSTRUCTORS                                    *
 *******************************************************************************/
@@ -70,7 +73,7 @@ public class Search {
 
 	public static void main(String[] args) throws java.io.IOException{
 
-		Calendar dateAndTime = Calendar.getInstance(); 
+		Calendar dateAndTime = Calendar.getInstance();
 		Date startTime = dateAndTime.getTime();
 
 	//  Read Parameter File
@@ -92,12 +95,16 @@ public class Search {
 	//	Problem Specific Setup - For new new fitness function problems, create
 	//	the appropriate class file (extending FitnessFunction.java) and add
 	//	an else_if block below to instantiate the problem.
- 
+
 		if (Parameters.problemType.equals("NM")){
 				problem = new NumberMatch();
 		}
 		else if (Parameters.problemType.equals("OM")){
 				problem = new OneMax();
+		}
+		else if(Parameters.problemType.equals("DL1"))
+		{
+			problem = new DynamicLandscapes1();
 		}
 		else System.out.println("Invalid Problem Type");
 
@@ -146,13 +153,51 @@ public class Search {
 				bestOfGenChromo.rawFitness = defaultBest;
 
 				//	Test Fitness of Each Member
+
+
+				// Do dynamics
+				if(Parameters.dynamics == 0) // Do nothing
+				{
+					// Do nothing
+				}
+				else if(Parameters.dynamics == 1) // Translate
+				{
+					if(G % 5 == 0)
+						trans = true;
+					else
+						trans = false;
+				}
+				else if(Parameters.dynamics == 2) // Oscellate
+				{
+					if(G % 20 == 0)
+						if(osc)
+							osc = false;
+						else
+							osc = true;
+				}
+				else if(Parameters.dynamics == 3) // Translate and oscellate
+				{
+					if(G % 20 == 0)
+					{
+						if(osc)
+							osc = false;
+						else
+							osc = true;
+					}
+
+					if(G % 2 == 0)
+						trans = true;
+					else
+						trans = false;
+				}
+
 				for (int i=0; i<Parameters.popSize; i++){
 
 					member[i].rawFitness = 0;
 					member[i].sclFitness = 0;
 					member[i].proFitness = 0;
 
-					problem.doRawFitness(member[i]);
+					problem.doRawFitness(member[i], G);
 
 					sumRawFitness = sumRawFitness + member[i].rawFitness;
 					sumRawFitness2 = sumRawFitness2 +
@@ -200,7 +245,7 @@ public class Search {
 
 				averageRawFitness = sumRawFitness / Parameters.popSize;
 				stdevRawFitness = Math.sqrt(
-							Math.abs(sumRawFitness2 - 
+							Math.abs(sumRawFitness2 -
 							sumRawFitness*sumRawFitness/Parameters.popSize)
 							/
 							(Parameters.popSize-1)
@@ -377,7 +422,7 @@ public class Search {
 
 		System.out.println();
 		System.out.println("Start:  " + startTime);
-		dateAndTime = Calendar.getInstance(); 
+		dateAndTime = Calendar.getInstance();
 		Date endTime = dateAndTime.getTime();
 		System.out.println("End  :  " + endTime);
 

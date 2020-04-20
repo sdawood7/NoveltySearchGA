@@ -61,6 +61,42 @@ public class Chromo
 		return (geneAlpha);
 	}
 
+	public double getXGeneValue(){
+		String geneAlpha = this.chromo;
+		double geneValue = 0;
+		char geneSign;
+		char geneBit;
+		//System.out.print(" GeneAlpha= " + geneAlpha + " ");
+		for (int i=(Parameters.geneSize/2)-1; i>=1; i--){
+			geneBit = geneAlpha.charAt(i);
+			if(i == 0)
+			{
+				// Skip
+			}
+			else if (geneBit == '1') geneValue = geneValue + (1/Math.pow(2.0, ((Parameters.geneSize/2)-i)));
+		}
+		geneSign = geneAlpha.charAt(0);
+		if (geneSign == '1') geneValue = geneValue*-1;
+		//System.out.print(" geneVal= " + geneValue + "\n");
+		return (geneValue);
+	}
+
+	public double getYGeneValue(){
+		String geneAlpha = this.chromo;
+		double geneValue = 0;
+		char geneSign;
+		char geneBit;
+		//System.out.print(" GeneAlpha= " + geneAlpha + " ");
+		for (int i=Parameters.geneSize-1; i>=(Parameters.geneSize/2)+1; i--){
+			geneBit = geneAlpha.charAt(i);
+			if (geneBit == '1') geneValue = geneValue + (1/Math.pow(2.0, (Parameters.geneSize-i)));
+		}
+		geneSign = geneAlpha.charAt((Parameters.geneSize/2));
+		if (geneSign == '1') geneValue = geneValue*-1;
+		//System.out.print(" y= " + geneValue + "\n");
+		return (geneValue);
+	}
+
 	//  Get Integer Value of a Gene (Positive or Negative, 2's Compliment) ****
 
 	public int getIntGeneValue(int geneID){
@@ -150,6 +186,15 @@ public class Chromo
 			return(j);
 
 		case 2:     //  Tournament Selection
+					randnum = Search.r.nextDouble();
+					j = (int) (randnum * Search.member.length);
+					randnum = Search.r.nextDouble();
+					k = (int) (randnum * Search.member.length);
+					while (j == k) {
+							randnum = Search.r.nextDouble();
+							k = (int) (randnum * Search.member.length);
+					}
+					return (Search.member[j].rawFitness < Search.member[k].rawFitness) ? j : k;
 
 		default:
 			System.out.println("ERROR - No selection method selected");
