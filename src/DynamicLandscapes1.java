@@ -53,34 +53,48 @@ public class DynamicLandscapes1 extends FitnessFunction{
 			//change these lines to change function
 
 			//Function 1
-			//range: -5<=x<=5, -5<=y<=5
+			//range: -2<=x<=2, -2<=y<=2
 			//min @ 3 , (0,-1)
+			// x= (X.getXGeneValue()*2)+trans;
+			// y= (X.getYGeneValue()*2)+trans;
+			// X.rawFitness= fitnessFunction1(x,y);
 
 			//Function 2
-			//range: -5<=x<=5, -5<=y<=5
+			//range: -3<=x<=3, -2<=y<=2
 			//min @ f(x1,x2)=-1.0316; (x1,x2)=(-0.0898,0.7126), (0.0898,-0.7126).
-			// x= (X.getXGeneValue(j)*5)+trans;
-			// y= (X.getYGeneValue(j)*5)+trans;
-			// X.rawFitness= (4-2.1*Math.pow(x, 2)+(Math.pow(x, 4)/3))*Math.pow(x, 2)+x*y+(-4+4*Math.pow(y, 2))*Math.pow(y, 2);
+			// x= (X.getXGeneValue()*3)+trans;
+			// y= (X.getYGeneValue()*2)+trans;
+			// X.rawFitness= fitnessFunction2(x,y);
 
 			//Function 3
-			//range:: -5<=x<=10, 0<=y<=15
+			//range:: -5<=x<=10, -5<=y<=15
 			//min @ f(x1,x2)=0.397887; (x1,x2)=(-pi,12.275), (pi,2.275), (9.42478,2.475).
 			// double b= 5.1/(4*Math.pow(Math.PI,2));
 			// double c = 5/Math.PI;
 			// double f=1/(8*Math.PI);
-			// x= (X.getXGeneValue(j)*10)+trans;
-			// y= (X.getYGeneValue(j)*10)+trans;
-			// X.rawFitness= Math.pow(y-b*Math.pow(x,2)+(c*x)-6, 2)+ 10*(1-f)*Math.cos(x)+10;
+			// if(X.getXGeneValue>=0){
+			// 	x= (X.getXGeneValue()*10)+trans;
+			// }
+			// else{
+			// 	x= (X.getXGeneValue()*-5)+trans;
+			// }
+
+			// if(X.getYGeneValue>=0){
+			// 	x= (X.getYGeneValue()*15)+trans;
+			// }
+			// else{
+			// 	x= (X.getYGeneValue()*-5)+trans;
+			// }
+			// X.rawFitness= fitnessFunction3(x,y);
 
 			//Oscillation Test: flip between function 1 & 2 every x gen
 			x= (X.getXGeneValue() * 5)+trans;
 			y= (X.getYGeneValue() * 5)+trans;
 			if(!Search.osc){
-				X.rawFitness= fitnessFunction5(x,y);
+				X.rawFitness= fitnessFunction1(x,y);
 			}
 			else{
-				X.rawFitness= fitnessFunction1(x,y);
+				X.rawFitness= fitnessFunction2(x,y);
 			}
 
 			//System.out.print("x = " + x + " ");
