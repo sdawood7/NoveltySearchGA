@@ -156,8 +156,8 @@ public class Search {
 				sumNoveltyFitness2 = 0;
 				bestOfGenChromo.rawFitness = defaultBest;
                 bestOfGenChromo.noveltyFitness = 0;
-                
-                Parameters.changeMutationType(G);
+
+                //Parameters.changeMutationType(G);
 
 				//	Test Fitness of Each Member
 				for (int i=0; i<Parameters.popSize; i++){
@@ -245,7 +245,7 @@ public class Search {
 				Hwrite.right(R, 3, summaryOutput);
 				summaryOutput.write(" G ");
 				Hwrite.right(G, 3, summaryOutput);
-				Hwrite.right(bestOfGenChromo.rawFitness, 7, summaryOutput);
+				Hwrite.right(bestOfGenChromo.rawFitness, 11, 3, summaryOutput);
 				Hwrite.right(averageRawFitness, 11, 3, summaryOutput);
 				Hwrite.right(stdevRawFitness, 11, 3, summaryOutput);
 				Hwrite.right((int)bestOfGenChromo.noveltyFitness, 7, summaryOutput);

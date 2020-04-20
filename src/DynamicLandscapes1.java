@@ -45,8 +45,8 @@ public class DynamicLandscapes1 extends FitnessFunction{
 		//set trans= 0 if user doesn't want translating
 		if(G >0){
 			t=G/5;
-			osc = 5%G;
-			trans=0.0001*t;
+			//osc = 5%G;
+			//trans=0.0001*t;
 		}
 
 		for (int j=0; j<Parameters.numGenes;j++){
@@ -81,10 +81,10 @@ public class DynamicLandscapes1 extends FitnessFunction{
 			x= (X.getXGeneValue(j)*5)+trans;
 			y= (X.getYGeneValue(j)*5)+trans;
 			if(osc==0){
-				X.rawFitness= Math.sin(x/3) + Math.cos (y);
+				X.rawFitness= fitnessFunction3(x,y);
 			}
 			else{
-				X.rawFitness= (4-2.1*Math.pow(x, 2)+(Math.pow(x, 4)/3))*Math.pow(x, 2)+x*y+(-4+4*Math.pow(y, 2))*Math.pow(y, 2);
+				X.rawFitness= fitnessFunction2(x,y);
 			}
 
 			//System.out.print("x = " + x + " ");

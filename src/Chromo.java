@@ -215,10 +215,10 @@ public class Chromo
 
         // Compare raw fitnesses
         if (candidate1.rawFitness > candidate2.rawFitness) {
-            rawFitnessComparison = 1;  // candidate1 has higher rawFitness
+            rawFitnessComparison = -1;  // candidate1 has higher rawFitness
         }
         else if (candidate1.rawFitness < candidate2.rawFitness) {
-            rawFitnessComparison = -1; // candidate2 has higher rawFitness
+            rawFitnessComparison = 1; // candidate2 has higher rawFitness
         }
         else {
             rawFitnessComparison = 0;  // rawFitnesses are equal
