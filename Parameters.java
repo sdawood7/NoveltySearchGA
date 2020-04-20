@@ -106,6 +106,19 @@ public class Parameters
 /*******************************************************************************
 *                             STATIC METHODS                                   *
 *******************************************************************************/
+    public static void changeMutationType(int generationCount) {
+        if (usingHypermutation) {
+            numGensUsingHypermutation++;
+            if (numGensUsingHypermutation > hypermutationLength) {
+                usingHypermutation = false;
+                numGensUsingHypermutation = 0;
+            }
+        }
+
+        if ((generationCount % hypermutationFrequency) == 0) {
+            usingHypermutation = true;
+        }
+    }
 
 	public static void outputParameters(FileWriter output) throws java.io.IOException{
 

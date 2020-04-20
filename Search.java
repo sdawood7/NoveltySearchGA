@@ -154,6 +154,8 @@ public class Search {
 				sumRawFitness2 = 0;
 				bestOfGenChromo.rawFitness = defaultBest;
 
+                Parameters.changeMutationType(G);
+
 				//	Test Fitness of Each Member
 
 				// Do dynamics

@@ -236,12 +236,30 @@ public class Chromo
             Chromo candidate2 = Search.member[k];
             
 			randnum = Search.r.nextDouble();
-			if (randnum < 0.7) { 
-				return j;
-			}
-			else {
-				return k;
-			}
+            if (candidate1.rawFitness < candidate2.rawFitness) { // Candidate1 is "more fit"
+                if (randnum < Parameters.tournamentRate) { 
+                    return j;
+                }
+                else {
+                    return k;
+                }
+            }
+            else if (candidate2.rawFitness < candidate1.rawFitness) { // Candidate2 is "more fit"
+                if (randnum < Parameters.tournamentRate) {
+                    return k;
+                }
+                else {
+                    return j;
+                }
+            }
+            else { // Candidates are equally fit
+                if (randnum < 0.5) {
+                    return j;
+                }
+                else {
+                    return k;
+                }
+            }
 
 
 
