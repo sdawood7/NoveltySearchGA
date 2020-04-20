@@ -33,7 +33,7 @@ public class OneMax extends FitnessFunction{
 
 //  COMPUTE A CHROMOSOME'S RAW FITNESS *************************************
 
-	public void doRawFitness(Chromo X){
+	public void doRawFitness(Chromo X, int G){
 
 		X.rawFitness = 0;
 		for (int z=0; z<Parameters.numGenes * Parameters.geneSize; z++){

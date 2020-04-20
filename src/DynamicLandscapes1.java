@@ -39,14 +39,14 @@ public class DynamicLandscapes1 extends FitnessFunction{
 		int t, osc;
 		trans=0;
 		osc=0;
-		
+
 		//parameters to trans or osc
 		//must uncomment function/ test below
 		//set trans= 0 if user doesn't want translating
 		if(G >0){
 			t=G/5;
-			osc = 5%G;
-			trans=0.0001*t;
+			//osc = 5%G;
+			//trans=0.0001*t;
 		}
 
 		for (int j=0; j<Parameters.numGenes;j++){
@@ -66,7 +66,7 @@ public class DynamicLandscapes1 extends FitnessFunction{
 			// x= (X.getXGeneValue(j)*5)+trans;
 			// y= (X.getYGeneValue(j)*5)+trans;
 			// X.rawFitness= (4-2.1*Math.pow(x, 2)+(Math.pow(x, 4)/3))*Math.pow(x, 2)+x*y+(-4+4*Math.pow(y, 2))*Math.pow(y, 2);
-			
+
 			//Function 3
 			//range:: -5<=x<=10, 0<=y<=15
 			//min @ f(x1,x2)=0.397887; (x1,x2)=(-pi,12.275), (pi,2.275), (9.42478,2.475).
@@ -76,37 +76,36 @@ public class DynamicLandscapes1 extends FitnessFunction{
 			// x= (X.getXGeneValue(j)*10)+trans;
 			// y= (X.getYGeneValue(j)*10)+trans;
 			// X.rawFitness= Math.pow(y-b*Math.pow(x,2)+(c*x)-6, 2)+ 10*(1-f)*Math.cos(x)+10;
-			
+
 			//Oscillation Test: flip between function 1 & 2 every x gen
 			x= (X.getXGeneValue(j)*5)+trans;
 			y= (X.getYGeneValue(j)*5)+trans;
 			if(osc==0){
-				X.rawFitness= Math.sin(x/3) + Math.cos (y);
+				X.rawFitness= fitnessFunction3(x,y);
 			}
 			else{
-				X.rawFitness= (4-2.1*Math.pow(x, 2)+(Math.pow(x, 4)/3))*Math.pow(x, 2)+x*y+(-4+4*Math.pow(y, 2))*Math.pow(y, 2);
+				X.rawFitness= fitnessFunction2(x,y);
 			}
 
 			//System.out.print("x = " + x + " ");
 			//System.out.print("y = " + y + "  ");
 			//System.out.print("fit = " + X.rawFitness + " \n");
-			
-		}		
+
+		}
 	}
 
 	public void assessNovelty(Chromo X)
 	{
 		X.noveltyFitness = 0;
-
 		// Grab the species array list
-		ArrayList<String> currentSpecies = KModes.speciesList.get(X.speciesKey);
+		ArrayList<Chromo> currentSpecies = KModes.speciesList.get(X.speciesKey);
 		// TODO: Loop through this chromo's species and accumulate hammingDistance score
 		for(int i = 0; i < currentSpecies.size(); i++)
 		{
-			if(currentSpecies.get(i) != X.chromo)
+			if(currentSpecies.get(i).chromo != X.chromo)
 			{
 				// Accumulate score
-				X.noveltyFitness += KModes.hammingDistance(currentSpecies.get(i), X.chromo);
+				X.noveltyFitness += KModes.hammingDistance(currentSpecies.get(i).chromo, X.chromo);
 			}
 		}
 		// TODO: Average the distance score and save to noveltyFitness score
@@ -135,8 +134,8 @@ public class DynamicLandscapes1 extends FitnessFunction{
 	//function 2.6
 	// public static double fitnessFunction5(double x, double y){
 	// 	double fitness = 0.0;
-		
-		
+
+
 	// 	return fitness;
 	// 	//min @ f(x1,x2)=0.397887; (x1,x2)=(-pi,12.275), (pi,2.275), (9.42478,2.475).
 	// }

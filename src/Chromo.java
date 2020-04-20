@@ -196,7 +196,7 @@ public class Chromo
 			this.chromo = mutChromo;
 
 
-			break;	
+			break;
 
 		default:
 			System.out.println("ERROR - No mutation method selected");
@@ -215,10 +215,10 @@ public class Chromo
 
         // Compare raw fitnesses
         if (candidate1.rawFitness > candidate2.rawFitness) {
-            rawFitnessComparison = 1;  // candidate1 has higher rawFitness
+            rawFitnessComparison = -1;  // candidate1 has higher rawFitness
         }
         else if (candidate1.rawFitness < candidate2.rawFitness) {
-            rawFitnessComparison = -1; // candidate2 has higher rawFitness
+            rawFitnessComparison = 1; // candidate2 has higher rawFitness
         }
         else {
             rawFitnessComparison = 0;  // rawFitnesses are equal
@@ -316,7 +316,7 @@ public class Chromo
 		case 3:     // Random Selection
 			randnum = Search.r.nextDouble();
 			j = (int) (randnum * Parameters.popSize);
-			return(j);
+			return species.get(j);
 
 		default:
 			System.out.println("ERROR - No selection method selected");
