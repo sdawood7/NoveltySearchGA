@@ -36,7 +36,6 @@ public class DynamicLandscapes1 extends FitnessFunction{
 
 	public void doRawFitness(Chromo X, int G){
 		double x, y, trans;
-		int t, transDirection;
 		trans=0;
 
 		//parameters to trans or osc
@@ -45,26 +44,17 @@ public class DynamicLandscapes1 extends FitnessFunction{
 		if(Search.trans)
 		{
 			trans = 0.5;
-			if(Search.r.nextDouble > 0.5)
-				transDirection = 0;
-			else
-				transDirection = 1;
+			if(Search.r.nextDouble() > 0.5)
+				trans *= -1;
 		}
 		else
 			trans = 0;
-
-		for (int j=0; j<Parameters.numGenes;j++){
 			//multiply x and y value by specific function range
 			//change these lines to change function
 
 			//Function 1
 			//range: -5<=x<=5, -5<=y<=5
 			//min @ 3 , (0,-1)
-			x= (X.getXGeneValue(j)*5)+trans;
-			y= (X.getYGeneValue(j)*5)+trans;
-				X.rawFitness= (1+ (Math.pow(x+y+1,2)*(19-(14*x)+(3*x*x)-(14*y)+(6*x*y)+(3*y*y))))
-				*(30+(Math.pow((2*x)-(3*y), 2)*(18-(32*x)+(12*x*x)+(48*y)-(36*x*y)+(27*y*y))));
-		}
 
 			//Function 2
 			//range: -5<=x<=5, -5<=y<=5
@@ -84,13 +74,13 @@ public class DynamicLandscapes1 extends FitnessFunction{
 			// X.rawFitness= Math.pow(y-b*Math.pow(x,2)+(c*x)-6, 2)+ 10*(1-f)*Math.cos(x)+10;
 
 			//Oscillation Test: flip between function 1 & 2 every x gen
-			x= (X.getXGeneValue(j)*5)+trans;
-			y= (X.getYGeneValue(j)*5)+trans;
+			x= (X.getXGeneValue() * 5)+trans;
+			y= (X.getYGeneValue() * 5)+trans;
 			if(!Search.osc){
-				X.rawFitness= fitnessFunction3(x,y);
+				X.rawFitness= fitnessFunction5(x,y);
 			}
 			else{
-				X.rawFitness= fitnessFunction2(x,y);
+				X.rawFitness= fitnessFunction1(x,y);
 			}
 
 			//System.out.print("x = " + x + " ");
@@ -152,9 +142,10 @@ public class DynamicLandscapes1 extends FitnessFunction{
 //sinusoidal landscape
 	public static double fitnessFunction1(double x, double y){
 		double fitness = 0.0;
-		fitness= Math.sin(x/3) + Math.cos (y);
+		fitness= (1+ (Math.pow(x+y+1,2)*(19-(14*x)+(3*x*x)-(14*y)+(6*x*y)+(3*y*y))))
+		*(30+(Math.pow((2*x)-(3*y), 2)*(18-(32*x)+(12*x*x)+(48*y)-(36*x*y)+(27*y*y))));
 		return fitness;
-		//min @ 0 , (3,0)
+		//min @ 3 , (3,0)
 	}
 
 	//DeJong's function 2.16
@@ -176,6 +167,16 @@ public class DynamicLandscapes1 extends FitnessFunction{
 		return fitness;
 		//range: -5<=x<=10, 0<=y<=15
 		//min @ f(x1,x2)=0.397887; (x1,x2)=(-pi,12.275), (pi,2.275), (9.42478,2.475).
+	}
+
+	public static double fitnessFunction5(double x, double y)
+	{
+		double fitness = 0.0;
+		for(int i = 1; i <= 2; i++)
+		{
+				fitness += Math.abs(i*x*y);
+		}
+		return fitness;
 	}
 
 	//shekel's foxholes
