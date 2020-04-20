@@ -36,18 +36,22 @@ public class DynamicLandscapes1 extends FitnessFunction{
 
 	public void doRawFitness(Chromo X, int G){
 		double x, y, trans;
-		int t, osc;
+		int t, transDirection;
 		trans=0;
-		osc=0;
 
 		//parameters to trans or osc
 		//must uncomment function/ test below
 		//set trans= 0 if user doesn't want translating
-		if(G >0){
-			t=G/5;
-			//osc = 5%G;
-			//trans=0.0001*t;
+		if(Search.trans)
+		{
+			trans = 0.5;
+			if(Search.r.nextDouble > 0.5)
+				transDirection = 0;
+			else
+				transDirection = 1;
 		}
+		else
+			trans = 0;
 
 		for (int j=0; j<Parameters.numGenes;j++){
 			//multiply x and y value by specific function range
@@ -80,7 +84,7 @@ public class DynamicLandscapes1 extends FitnessFunction{
 			//Oscillation Test: flip between function 1 & 2 every x gen
 			x= (X.getXGeneValue(j)*5)+trans;
 			y= (X.getYGeneValue(j)*5)+trans;
-			if(osc==0){
+			if(!Search.osc){
 				X.rawFitness= fitnessFunction3(x,y);
 			}
 			else{
