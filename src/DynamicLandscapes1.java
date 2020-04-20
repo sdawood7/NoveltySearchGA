@@ -47,12 +47,8 @@ public class DynamicLandscapes1 extends FitnessFunction{
 			if(Search.r.nextDouble() > 0.5)
 				trans *= -1;
 		}
-<<<<<<< HEAD
-
-=======
 		else
 			trans = 0;
->>>>>>> 42288e95916e058ca801f826d642e9f44886bb91
 			//multiply x and y value by specific function range
 			//change these lines to change function
 
@@ -60,13 +56,6 @@ public class DynamicLandscapes1 extends FitnessFunction{
 			//2.15
 			//range: -5<=x<=5, -5<=y<=5
 			//min @ 3 , (0,-1)
-<<<<<<< HEAD
-			x= (X.getXGeneValue(j)*5)+trans;
-			y= (X.getYGeneValue(j)*5)+trans;
-			X.rawFitness= (1+ (Math.pow(x+y+1,2)*(19-(14*x)+(3*x*x)-(14*y)+(6*x*y)+(3*y*y))))
-			*(30+(Math.pow((2*x)-(3*y), 2)*(18-(32*x)+(12*x*x)+(48*y)-(36*x*y)+(27*y*y))));
-=======
->>>>>>> 42288e95916e058ca801f826d642e9f44886bb91
 
 			//Function 2
 			//2.16
@@ -91,10 +80,10 @@ public class DynamicLandscapes1 extends FitnessFunction{
 			x= (X.getXGeneValue() * 5)+trans;
 			y= (X.getYGeneValue() * 5)+trans;
 			if(!Search.osc){
-				X.rawFitness= fitnessFunction5(x,y);
+				X.rawFitness= fitnessFunction1(x,y);
 			}
 			else{
-				X.rawFitness= fitnessFunction1(x,y);
+				X.rawFitness= fitnessFunction2(x,y);
 			}
 
 			//System.out.print("x = " + x + " ");
