@@ -42,7 +42,7 @@ public class Parameters
 
     public static int species;
     public static double crossbreedRate;
-  
+
     public static double hypermutationRate;
     public static int hypermutationLength;
     public static int hypermutationFrequency;
@@ -84,14 +84,15 @@ public class Parameters
 		seed = Long.parseLong(parmInput.readLine().substring(30).trim());
 		numGenes = Integer.parseInt(parmInput.readLine().substring(30).trim());
 		geneSize = Integer.parseInt(parmInput.readLine().substring(30).trim());
-        species = Integer.parseInt(parmInput.readLine().substring(30).trim());
-        crossbreedRate = Double.parseDouble(parmInput.readLine().substring(30).trim());
-        
-        hypermutationRate = Double.parseDouble(parmInput.readLine().substring(30).trim());
-        hypermutationLength = Integer.parseInt(parmInput.readLine().substring(30).trim());
-        hypermutationFrequency = Integer.parseInt(parmInput.readLine().substring(30).trim());
 
-        tournamentRate = Double.parseDouble(parmInput.readLine().substring(30).trim());
+		species = Integer.parseInt(parmInput.readLine().substring(30).trim());
+    crossbreedRate = Double.parseDouble(parmInput.readLine().substring(30).trim());
+
+    hypermutationRate = Double.parseDouble(parmInput.readLine().substring(30).trim());
+    hypermutationLength = Integer.parseInt(parmInput.readLine().substring(30).trim());
+    hypermutationFrequency = Integer.parseInt(parmInput.readLine().substring(30).trim());
+
+    tournamentRate = Double.parseDouble(parmInput.readLine().substring(30).trim());
 
 		parmInput.close();
 
@@ -122,11 +123,11 @@ public class Parameters
     }
 
 public static void outputParameters(FileWriter output) throws java.io.IOException{
-    
-    
+
+
     output.write("Experiment ID                :  " + expID + "\n");
     output.write("Problem Type                 :  " + problemType + "\n");
-    
+
 		output.write("Data Input File Name         :  " + dataInputFileName + "\n");
 
 		output.write("Number of Runs               :  " + numRuns + "\n");
