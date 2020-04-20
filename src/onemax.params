@@ -14,8 +14,9 @@ Mutation Rate 2              :0.05
 Random Number Seed           :75982
 Number of Genes/Points (7)   :1
 Size of Genes (18)           :32
+Dynamics                     :3
 Species                      :10
-Crossbreed Rate              :0.2
+Crossbreed Rate              :0.05
 Hypermutation Rate           :0.7
 Hypermutation Length         :5
 Hypermutation Frequency      :15
