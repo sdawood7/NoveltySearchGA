@@ -40,6 +40,8 @@ public class Parameters
 	public static int numGenes;
 	public static int geneSize;
 
+	public static int dynamics;
+
     public static int species;
     public static double crossbreedRate;
 
@@ -84,6 +86,8 @@ public class Parameters
 		seed = Long.parseLong(parmInput.readLine().substring(30).trim());
 		numGenes = Integer.parseInt(parmInput.readLine().substring(30).trim());
 		geneSize = Integer.parseInt(parmInput.readLine().substring(30).trim());
+
+		dynamics = Integer.parseInt(parmInput.readLine().substring(30).trim());
 
 		species = Integer.parseInt(parmInput.readLine().substring(30).trim());
     crossbreedRate = Double.parseDouble(parmInput.readLine().substring(30).trim());

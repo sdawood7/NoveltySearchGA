@@ -37,13 +37,13 @@ public class Test{
 	public void doRawFitness(Chromo X){
 		double x, y;
 		for (int j=0; j<Parameters.numGenes;j++){
-			x= X.getXGeneValue(j);
+			x= X.getXGeneValue();
 			//System.out.print("x = " + x + " ");
-			y= X.getYGeneValue(j);
+			y= X.getYGeneValue();
 			//System.out.print("y = " + y + "  ");
 			X.rawFitness= (4-2.1*Math.pow(x, 2)+(Math.pow(x, 4)/3))*Math.pow(x, 2)+x*y+(-4+4*Math.pow(y, 2))*Math.pow(y, 2);
 			//System.out.print("fit = " + X.rawFitness + " \n");
-		}		
+		}
 		// return fitness;
 		//range -3<=x<=3, -2<=y<=2
 		//min @ f(x1,x2)=-1.0316; (x1,x2)=(-0.0898,0.7126), (0.0898,-0.7126).
@@ -95,8 +95,8 @@ public class Test{
 	//function 2.6
 	// public static double fitnessFunction5(double x, double y){
 	// 	double fitness = 0.0;
-		
-		
+
+
 	// 	return fitness;
 	// 	//min @ f(x1,x2)=0.397887; (x1,x2)=(-pi,12.275), (pi,2.275), (9.42478,2.475).
 	// }
@@ -203,4 +203,3 @@ public class Test{
         System.out.print(" y= " + geneY + "\n");
 	}
 }   // End of DynamicLandscapes.java ******************************************************
-

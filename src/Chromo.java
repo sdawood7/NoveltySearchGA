@@ -64,31 +64,31 @@ public class Chromo
 		return (geneAlpha);
 	}
 
-	public double getXGeneValue(int geneID){
-		String geneAlpha = "";
-		double geneValue;
+	public double getXGeneValue(){
+		String geneAlpha = this.chromo;
+		double geneValue = 0;
 		char geneSign;
 		char geneBit;
-		geneValue = 0;
-		geneAlpha = getGeneAlpha(geneID);
 		//System.out.print(" GeneAlpha= " + geneAlpha + " ");
 		for (int i=(Parameters.geneSize/2)-1; i>=1; i--){
 			geneBit = geneAlpha.charAt(i);
-			if (geneBit == '1') geneValue = geneValue + (1/Math.pow(2.0, ((Parameters.geneSize/2)-i)));
+			if(i == 0)
+			{
+				// Skip
+			}
+			else if (geneBit == '1') geneValue = geneValue + (1/Math.pow(2.0, ((Parameters.geneSize/2)-i)));
 		}
 		geneSign = geneAlpha.charAt(0);
 		if (geneSign == '1') geneValue = geneValue*-1;
-		//System.out.print(" x= " + geneValue + "\n");
+		//System.out.print(" geneVal= " + geneValue + "\n");
 		return (geneValue);
 	}
 
-	public double getYGeneValue(int geneID){
-		String geneAlpha = "";
-		double geneValue;
+	public double getYGeneValue(){
+		String geneAlpha = this.chromo;
+		double geneValue = 0;
 		char geneSign;
 		char geneBit;
-		geneValue = 0;
-		geneAlpha = getGeneAlpha(geneID);
 		//System.out.print(" GeneAlpha= " + geneAlpha + " ");
 		for (int i=Parameters.geneSize-1; i>=(Parameters.geneSize/2)+1; i--){
 			geneBit = geneAlpha.charAt(i);

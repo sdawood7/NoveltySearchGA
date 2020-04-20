@@ -58,6 +58,9 @@ public class Search {
 
 	private static double fitnessStats[][];  // 0=Avg, 1=Best
 
+	public static boolean trans;
+	public static boolean osc;
+
 /*******************************************************************************
 *                              CONSTRUCTORS                                    *
 *******************************************************************************/
@@ -160,6 +163,39 @@ public class Search {
                 //Parameters.changeMutationType(G);
 
 				//	Test Fitness of Each Member
+
+				// Do dynamics
+				if(Parameters.dynamics == 0) // Do nothing
+				{
+					// Do nothing
+				}
+				else if(Parameters.dynamics == 1) // Translate
+				{
+					if(G % 5 == 0)
+						trans = true;
+					else
+						trans = false;
+				}
+				else if(Parameters.dynamics == 2) // Oscellate
+				{
+					if(G % 20 == 0)
+						osc = true;
+					else
+						osc = false;
+				}
+				else if(Parameters.dynamics == 3) // Translate and oscellate
+				{
+					if(G % 20 == 0)
+						osc = true;
+					else
+						osc = false;
+
+					if(G % 5 == 0)
+						trans = true;
+					else
+						trans = false;
+				}
+
 				for (int i=0; i<Parameters.popSize; i++){
 
 					member[i].rawFitness = 0;
