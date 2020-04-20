@@ -23,28 +23,24 @@ public class Search {
 	public static Chromo[] child;
 
 	public static Chromo bestOfGenChromo;
-	public static double bestOfGenR;
-	public static double bestOfGenG;
+	public static int bestOfGenR;
+	public static int bestOfGenG;
 	public static Chromo bestOfRunChromo;
-	public static double bestOfRunR;
-	public static double bestOfRunG;
+	public static int bestOfRunR;
+	public static int bestOfRunG;
 	public static Chromo bestOverAllChromo;
-	public static double bestOverAllR;
-	public static double bestOverAllG;
+	public static int bestOverAllR;
+	public static int bestOverAllG;
 
 	public static double sumRawFitness;
 	public static double sumRawFitness2;	// sum of squares of fitness
-	public static double sumNoveltyFitness;
-	public static double sumNoveltyFitness2;
 	public static double sumSclFitness;
 	public static double sumProFitness;
 	public static double defaultBest;
 	public static double defaultWorst;
 
 	public static double averageRawFitness;
-	public static double averageNoveltyFitness;
 	public static double stdevRawFitness;
-	public static double stdevNoveltyFitness;
 
 	public static int G;
 	public static int R;
@@ -57,9 +53,6 @@ public class Search {
 	private static double TmemberFitness;
 
 	private static double fitnessStats[][];  // 0=Avg, 1=Best
-
-	public static boolean trans;
-	public static boolean osc;
 
 /*******************************************************************************
 *                              CONSTRUCTORS                                    *
@@ -77,7 +70,7 @@ public class Search {
 
 	public static void main(String[] args) throws java.io.IOException{
 
-		Calendar dateAndTime = Calendar.getInstance();
+		Calendar dateAndTime = Calendar.getInstance(); 
 		Date startTime = dateAndTime.getTime();
 
 	//  Read Parameter File
@@ -99,15 +92,12 @@ public class Search {
 	//	Problem Specific Setup - For new new fitness function problems, create
 	//	the appropriate class file (extending FitnessFunction.java) and add
 	//	an else_if block below to instantiate the problem.
-
+ 
 		if (Parameters.problemType.equals("NM")){
 				problem = new NumberMatch();
 		}
 		else if (Parameters.problemType.equals("OM")){
 				problem = new OneMax();
-		}
-		else if (Parameters.problemType.equals("DL1")){
-				problem = new DynamicLandscapes1();
 		}
 		else System.out.println("Invalid Problem Type");
 
@@ -146,63 +136,23 @@ public class Search {
 				child[i] = new Chromo();
 			}
 
-			KModes kmodes = new KModes();
-
 			//	Begin Each Run
 			for (G=0; G<Parameters.generations; G++){
 
 				sumProFitness = 0;
 				sumSclFitness = 0;
 				sumRawFitness = 0;
-				sumNoveltyFitness = 0;
 				sumRawFitness2 = 0;
-				sumNoveltyFitness2 = 0;
 				bestOfGenChromo.rawFitness = defaultBest;
-                bestOfGenChromo.noveltyFitness = 0;
-
-                //Parameters.changeMutationType(G);
 
 				//	Test Fitness of Each Member
-
-				// Do dynamics
-				if(Parameters.dynamics == 0) // Do nothing
-				{
-					// Do nothing
-				}
-				else if(Parameters.dynamics == 1) // Translate
-				{
-					if(G % 5 == 0)
-						trans = true;
-					else
-						trans = false;
-				}
-				else if(Parameters.dynamics == 2) // Oscellate
-				{
-					if(G % 20 == 0)
-						osc = true;
-					else
-						osc = false;
-				}
-				else if(Parameters.dynamics == 3) // Translate and oscellate
-				{
-					if(G % 20 == 0)
-						osc = true;
-					else
-						osc = false;
-
-					if(G % 5 == 0)
-						trans = true;
-					else
-						trans = false;
-				}
-
 				for (int i=0; i<Parameters.popSize; i++){
 
 					member[i].rawFitness = 0;
 					member[i].sclFitness = 0;
 					member[i].proFitness = 0;
 
-					problem.doRawFitness(member[i], G);
+					problem.doRawFitness(member[i]);
 
 					sumRawFitness = sumRawFitness + member[i].rawFitness;
 					sumRawFitness2 = sumRawFitness2 +
@@ -244,49 +194,29 @@ public class Search {
 					}
 				}
 
-				// Test Novelty Score of each individual
-				for(int i=0; i<Parameters.popSize; i++){
-					problem.assessNovelty(member[i]);
-					sumNoveltyFitness += member[i].noveltyFitness;
-					sumNoveltyFitness2 = sumNoveltyFitness2 +
-						member[i].noveltyFitness * member[i].noveltyFitness;
-				}
-
 				// Accumulate fitness statistics
 				fitnessStats[0][G] += sumRawFitness / Parameters.popSize;
 				fitnessStats[1][G] += bestOfGenChromo.rawFitness;
 
 				averageRawFitness = sumRawFitness / Parameters.popSize;
-				averageNoveltyFitness = sumNoveltyFitness / Parameters.popSize;
 				stdevRawFitness = Math.sqrt(
-							Math.abs(sumRawFitness2 -
+							Math.abs(sumRawFitness2 - 
 							sumRawFitness*sumRawFitness/Parameters.popSize)
 							/
 							(Parameters.popSize-1)
 							);
 
-				stdevNoveltyFitness = Math.sqrt(
-							Math.abs(sumNoveltyFitness2 -
-							sumNoveltyFitness*sumNoveltyFitness/Parameters.popSize)
-							/
-							(Parameters.popSize-1)
-							);
-
 				// Output generation statistics to screen
-				System.out.println(R + "\t" + G +  "\t" + bestOfGenChromo.rawFitness + "\t" + averageRawFitness + "\t"
-				+ stdevRawFitness + "\t\t" + bestOfGenChromo.noveltyFitness + "\t" + averageNoveltyFitness + "\t" + stdevNoveltyFitness);
+				System.out.println(R + "\t" + G +  "\t" + (int)bestOfGenChromo.rawFitness + "\t" + averageRawFitness + "\t" + stdevRawFitness);
 
 				// Output generation statistics to summary file
 				summaryOutput.write(" R ");
 				Hwrite.right(R, 3, summaryOutput);
 				summaryOutput.write(" G ");
 				Hwrite.right(G, 3, summaryOutput);
-				Hwrite.right(bestOfGenChromo.rawFitness, 11, 3, summaryOutput);
+				Hwrite.right((int)bestOfGenChromo.rawFitness, 7, summaryOutput);
 				Hwrite.right(averageRawFitness, 11, 3, summaryOutput);
 				Hwrite.right(stdevRawFitness, 11, 3, summaryOutput);
-				Hwrite.right((int)bestOfGenChromo.noveltyFitness, 7, summaryOutput);
-				Hwrite.right(averageNoveltyFitness, 11, 3, summaryOutput);
-				Hwrite.right(stdevNoveltyFitness, 11, 3, summaryOutput);
 				summaryOutput.write("\n");
 
 
@@ -384,69 +314,27 @@ public class Search {
 		// ************ CROSSOVER AND CREATE NEXT GENERATION *******************
 		// *********************************************************************
 
-				Chromo parent1;
-				Chromo parent2;
+				int parent1 = -1;
+				int parent2 = -1;
 
 				//  Assumes always two offspring per mating
 				for (int i=0; i<Parameters.popSize; i=i+2){
 
 					//	Select Two Parents
-
-					// Get the list of species
-					List species = new ArrayList(KModes.speciesList.keySet());
-					boolean [] checkedSpecies = new boolean[Parameters.species];
-					// Get randum species
-					int species1 = r.nextInt(species.size());
-
-					while(KModes.speciesList.get(species.get(species1)).size() == 0) // Prevent grabbing of empty species
-					{
-						species1 = r.nextInt(species.size());
+					parent1 = Chromo.selectParent();
+					parent2 = parent1;
+					while (parent2 == parent1){
+						parent2 = Chromo.selectParent();
 					}
-					checkedSpecies[species1] = false;
-
-					parent1 = Chromo.selectParent(KModes.speciesList.get(species.get(species1))); // Run tourney to find members in species
-
-					if(r.nextDouble() < Parameters.crossbreedRate || KModes.speciesList.get(species.get(species1)).size() == 1) // Crossbreed with different species if under cbrate or only 1 member in species
-					{
-						int species2 = r.nextInt(species.size());
-						while(KModes.speciesList.get(species.get(species2)).size() == 0 || species1 == species2) // Prevent grabbing of empty species or previously used species
-						{
-							species2 = r.nextInt(species.size());
-
-							// Ensure that there is an available species, if not use species1
-							checkedSpecies[species2] = true;
-							int quickCount = 0;
-							for(int k = 0; k < checkedSpecies.length; k++)
-							{
-								if(checkedSpecies[k])
-									quickCount++;
-							}
-							if(quickCount == (species.size() - 1))
-							{
-								species2 = species1;
-								break;
-							}
-						}
-						parent2 = Chromo.selectParent(KModes.speciesList.get(species.get(species2)));
-					}
-					else
-					{
-						parent2 = parent1;
-						while (parent2 == parent1){
-							parent2 = Chromo.selectParent(KModes.speciesList.get(species.get(species1)));
-						}
-					}
-
-					//System.out.println("\nSpecies1 : " + parent1.speciesKey + "\nSpecies2 : " + parent2.speciesKey);
 
 					//	Crossover Two Parents to Create Two Children
 					randnum = r.nextDouble();
 					if (randnum < Parameters.xoverRate){
-						Chromo.mateParents(parent1, parent2, child[i], child[i+1]);
+						Chromo.mateParents(parent1, parent2, member[parent1], member[parent2], child[i], child[i+1]);
 					}
 					else {
-						Chromo.mateParents(parent1, child[i]);
-						Chromo.mateParents(parent2, child[i+1]);
+						Chromo.mateParents(parent1, member[parent1], child[i]);
+						Chromo.mateParents(parent2, member[parent2], child[i+1]);
 					}
 				} // End Crossover
 
@@ -459,8 +347,6 @@ public class Search {
 				for (int i=0; i<Parameters.popSize; i++){
 					Chromo.copyB2A(member[i], child[i]);
 				}
-
-				KModes.speciate();
 
 			} //  Repeat the above loop for each generation
 
@@ -491,7 +377,7 @@ public class Search {
 
 		System.out.println();
 		System.out.println("Start:  " + startTime);
-		dateAndTime = Calendar.getInstance();
+		dateAndTime = Calendar.getInstance(); 
 		Date endTime = dateAndTime.getTime();
 		System.out.println("End  :  " + endTime);
 

@@ -17,8 +17,6 @@ public class Chromo
 	public double rawFitness;
 	public double sclFitness;
 	public double proFitness;
-	public double noveltyFitness;
-	public String speciesKey;
 
 /*******************************************************************************
 *                            INSTANCE VARIABLES                                *
@@ -60,44 +58,7 @@ public class Chromo
 		int start = geneID * Parameters.geneSize;
 		int end = (geneID+1) * Parameters.geneSize;
 		String geneAlpha = this.chromo.substring(start, end);
-		//System.out.print(" GeneAlpha= " + geneAlpha + " \n");
 		return (geneAlpha);
-	}
-
-	public double getXGeneValue(){
-		String geneAlpha = this.chromo;
-		double geneValue = 0;
-		char geneSign;
-		char geneBit;
-		//System.out.print(" GeneAlpha= " + geneAlpha + " ");
-		for (int i=(Parameters.geneSize/2)-1; i>=1; i--){
-			geneBit = geneAlpha.charAt(i);
-			if(i == 0)
-			{
-				// Skip
-			}
-			else if (geneBit == '1') geneValue = geneValue + (1/Math.pow(2.0, ((Parameters.geneSize/2)-i)));
-		}
-		geneSign = geneAlpha.charAt(0);
-		if (geneSign == '1') geneValue = geneValue*-1;
-		//System.out.print(" geneVal= " + geneValue + "\n");
-		return (geneValue);
-	}
-
-	public double getYGeneValue(){
-		String geneAlpha = this.chromo;
-		double geneValue = 0;
-		char geneSign;
-		char geneBit;
-		//System.out.print(" GeneAlpha= " + geneAlpha + " ");
-		for (int i=Parameters.geneSize-1; i>=(Parameters.geneSize/2)+1; i--){
-			geneBit = geneAlpha.charAt(i);
-			if (geneBit == '1') geneValue = geneValue + (1/Math.pow(2.0, (Parameters.geneSize-i)));
-		}
-		geneSign = geneAlpha.charAt((Parameters.geneSize/2));
-		if (geneSign == '1') geneValue = geneValue*-1;
-		//System.out.print(" y= " + geneValue + "\n");
-		return (geneValue);
 	}
 
 	//  Get Integer Value of a Gene (Positive or Negative, 2's Compliment) ****
@@ -138,52 +99,12 @@ public class Chromo
 	public void doMutation(){
 
 		String mutChromo = "";
-        char x;
-        double mutationRate;
-
-        // Use hypermutation if enabled
-        if (Parameters.usingHypermutation) {
-            mutationRate = Parameters.hypermutationRate;
-        }
-        else {
-            mutationRate = Parameters.mutationRate;
-        }
+		char x;
 
 		switch (Parameters.mutationType){
 
 		case 1:     //  Replace with new random number
 
-			for (int j=0; j<(Parameters.geneSize * Parameters.numGenes); j++){
-				x = this.chromo.charAt(j);
-				randnum = Search.r.nextDouble();
-				if (randnum < mutationRate){
-					if (x == '1') x = '0';
-					else x = '1';
-				}
-				mutChromo = mutChromo + x;
-			}
-			this.chromo = mutChromo;
-			break;
-
-		case 2:     //  Random Immigrants attempt
-
-			//changes certain genes
-			for (int i=0; i<Parameters.numGenes; i++){
-				randnum = Search.r.nextDouble();
-				if (randnum < Parameters.mutationRate2){
-					char[] testChromo = this.chromo.toCharArray();
-					char geneBit;
-					for (int j=0; j<Parameters.geneSize; j++){
-						randnum = Search.r.nextDouble();
-						if (randnum > 0.5) geneBit = '0';
-						else geneBit = '1';
-						testChromo[j+(i*Parameters.geneSize)]= geneBit;
-					}
-					this.chromo = String.valueOf(testChromo);
-				}
-			}
-
-			//still does regular mutation
 			for (int j=0; j<(Parameters.geneSize * Parameters.numGenes); j++){
 				x = this.chromo.charAt(j);
 				randnum = Search.r.nextDouble();
@@ -194,8 +115,6 @@ public class Chromo
 				mutChromo = mutChromo + x;
 			}
 			this.chromo = mutChromo;
-
-
 			break;
 
 		default:
@@ -209,55 +128,11 @@ public class Chromo
 
 	//  Select a parent for crossover ******************************************
 
-    private static int findDominant(Chromo candidate1, Chromo candidate2) {
-        int rawFitnessComparison;
-        int noveltyFitnessComparison;
-
-        // Compare raw fitnesses
-        if (candidate1.rawFitness > candidate2.rawFitness) {
-            rawFitnessComparison = -1;  // candidate1 has higher rawFitness
-        }
-        else if (candidate1.rawFitness < candidate2.rawFitness) {
-            rawFitnessComparison = 1; // candidate2 has higher rawFitness
-        }
-        else {
-            rawFitnessComparison = 0;  // rawFitnesses are equal
-        }
-
-        // Compare novelty fitnesses
-        if (candidate1.noveltyFitness > candidate2.noveltyFitness) {
-            noveltyFitnessComparison = 1;  // candidate1 has higher noveltyFitness
-        }
-        else if (candidate1.noveltyFitness < candidate2.noveltyFitness) {
-            noveltyFitnessComparison = -1; // candidate2 has higher noveltyFitness
-        }
-        else {
-            noveltyFitnessComparison = 0;  // noveltyFitnesses are equal
-        }
-
-        // Return the dominant chromo
-        if      ((rawFitnessComparison ==  1) && (noveltyFitnessComparison ==  1) ||
-                 (rawFitnessComparison ==  1) && (noveltyFitnessComparison ==  0) ||
-                 (rawFitnessComparison ==  0) && (noveltyFitnessComparison ==  1)) {
-            return 1;
-        }
-        else if ((rawFitnessComparison == -1) && (noveltyFitnessComparison == -1) ||
-                 (rawFitnessComparison == -1) && (noveltyFitnessComparison ==  0) ||
-                 (rawFitnessComparison ==  0) && (noveltyFitnessComparison == -1)) {
-            return -1;
-        }
-        else {
-            return 0;
-        }
-
-    }
-
-	public static Chromo selectParent(ArrayList<Chromo> species){
+	public static int selectParent(){
 
 		double rWheel = 0;
 		int j = 0;
 		int k = 0;
-		int l = 0;
 
 		switch (Parameters.selectType){
 
@@ -265,68 +140,26 @@ public class Chromo
 			randnum = Search.r.nextDouble();
 			for (j=0; j<Parameters.popSize; j++){
 				rWheel = rWheel + Search.member[j].proFitness;
-				if (randnum < rWheel) return(Search.member[j]);
+				if (randnum < rWheel) return(j);
 			}
 			break;
-
-		case 2:     //  Tournament Selection
-						if(species.size() == 1)
-							return species.get(0);
-
-            randnum = Search.r.nextDouble();
-            j = (int) (randnum * species.size());
-            randnum = Search.r.nextDouble();
-            k = (int) (randnum * species.size());
-            while (j == k) {
-                randnum = Search.r.nextDouble();
-                k = (int) (randnum * species.size());
-            }
-            Chromo candidate1 = species.get(j);
-            Chromo candidate2 = species.get(k);
-            int dominantChromo = findDominant(candidate1, candidate2);
-
-            if      (dominantChromo ==  1) { // Candidate 1 dominates candidate 2
-                randnum = Search.r.nextDouble();
-                if (randnum < 0.7) {
-                    return species.get(j);
-                }
-                else {
-                    return species.get(k);
-                }
-            }
-            else if (dominantChromo == -1) { // Candidate 2 dominates candidate 1
-                randnum = Search.r.nextDouble();
-                if (randnum < 0.7) {
-                    return species.get(k);
-                }
-                else {
-                    return species.get(j);
-                }
-            }
-            else                           { // Neither candidate dominates the other
-                randnum = Search.r.nextDouble();
-                if (randnum < 0.5) {
-                    return species.get(j);
-                }
-                else {
-                    return species.get(k);
-                }
-            }
 
 		case 3:     // Random Selection
 			randnum = Search.r.nextDouble();
 			j = (int) (randnum * Parameters.popSize);
-			return species.get(j);
+			return(j);
+
+		case 2:     //  Tournament Selection
 
 		default:
 			System.out.println("ERROR - No selection method selected");
 		}
-	return(null);
+	return(-1);
 	}
 
 	//  Produce a new child from two parents  **********************************
 
-	public static void mateParents(Chromo parent1, Chromo parent2, Chromo child1, Chromo child2){
+	public static void mateParents(int pnum1, int pnum2, Chromo parent1, Chromo parent2, Chromo child1, Chromo child2){
 
 		int xoverPoint1;
 		int xoverPoint2;
@@ -362,7 +195,7 @@ public class Chromo
 
 	//  Produce a new child from a single parent  ******************************
 
-	public static void mateParents(Chromo parent, Chromo child){
+	public static void mateParents(int pnum, Chromo parent, Chromo child){
 
 		//  Create child chromosome from parental material
 		child.chromo = parent.chromo;
