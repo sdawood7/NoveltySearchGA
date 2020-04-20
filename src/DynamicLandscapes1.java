@@ -59,10 +59,12 @@ public class DynamicLandscapes1 extends FitnessFunction{
 
 			//Function 1
 			//range: -5<=x<=5, -5<=y<=5
-			//min @ 0 , (3,0)
-			// x= (X.getXGeneValue(j)*5)+trans;
-			// y= (X.getYGeneValue(j)*5)+trans;
-			// X.rawFitness= Math.sin(x/3) + Math.cos (y);
+			//min @ 3 , (0,-1)
+			x= (X.getXGeneValue(j)*5)+trans;
+			y= (X.getYGeneValue(j)*5)+trans;
+				X.rawFitness= (1+ (Math.pow(x+y+1,2)*(19-(14*x)+(3*x*x)-(14*y)+(6*x*y)+(3*y*y))))
+				*(30+(Math.pow((2*x)-(3*y), 2)*(18-(32*x)+(12*x*x)+(48*y)-(36*x*y)+(27*y*y))));
+		}
 
 			//Function 2
 			//range: -5<=x<=5, -5<=y<=5
@@ -95,7 +97,6 @@ public class DynamicLandscapes1 extends FitnessFunction{
 			//System.out.print("y = " + y + "  ");
 			//System.out.print("fit = " + X.rawFitness + " \n");
 
-		}
 	}
 
 	public void assessNovelty(Chromo X)
