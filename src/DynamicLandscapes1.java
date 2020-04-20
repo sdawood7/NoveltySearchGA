@@ -10,6 +10,8 @@ import java.lang.Math;
 
 public class DynamicLandscapes1 extends FitnessFunction{
 
+double transX;
+double transY;
 /*******************************************************************************
 *                            INSTANCE VARIABLES                                *
 *******************************************************************************/
@@ -26,6 +28,8 @@ public class DynamicLandscapes1 extends FitnessFunction{
 
 	public DynamicLandscapes1(){
 		name = "DynamicLandscapes Problem 1";
+    transX = 0;
+    transY = 0;
 	}
 
 /*******************************************************************************
@@ -35,20 +39,24 @@ public class DynamicLandscapes1 extends FitnessFunction{
 //  COMPUTE A CHROMOSOME'S RAW FITNESS *************************************
 
 	public void doRawFitness(Chromo X, int G){
-		double x, y, trans;
-		trans=0;
-
+		double x, y;
+    transX = 0;
+    transY = 0;
 		//parameters to trans or osc
 		//must uncomment function/ test below
 		//set trans= 0 if user doesn't want translating
-		if(Search.trans)
+    if(Search.trans)
 		{
-			trans = 0.5;
 			if(Search.r.nextDouble() > 0.5)
-				trans *= -1;
+				transX -= 0.5;
+      else
+        transX += 0.5;
+
+			if(Search.r.nextDouble() > 0.5)
+				transY -= 0.5;
+      else
+        transY += 0.5;
 		}
-		else
-			trans = 0;
 			//multiply x and y value by specific function range
 			//change these lines to change function
 
@@ -77,12 +85,23 @@ public class DynamicLandscapes1 extends FitnessFunction{
 			// X.rawFitness= Math.pow(y-b*Math.pow(x,2)+(c*x)-6, 2)+ 10*(1-f)*Math.cos(x)+10;
 
 			//Oscillation Test: flip between function 1 & 2 every x gen
-			x= (X.getXGeneValue() * 5)+trans;
-			y= (X.getYGeneValue() * 5)+trans;
-			if(!Search.osc){
+      if(!Search.osc){
+				x= (X.getXGeneValue() * 2) + transX;
+        y= (X.getYGeneValue() * 2) + transY;
+				/*if(x < 0)
+				{
+					x = x * 5 + transX;
+				}else x = x * 10 + transX;
+				y= (X.getYGeneValue());
+				if(y < 0)
+				{
+					y = y * 5 + transY;
+				}else y = y * 15 + transY;*/
 				X.rawFitness= fitnessFunction1(x,y);
 			}
 			else{
+				x= (X.getXGeneValue() * 3);
+				y= (X.getYGeneValue() * 2);
 				X.rawFitness= fitnessFunction2(x,y);
 			}
 

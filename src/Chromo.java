@@ -252,81 +252,47 @@ public class Chromo
 
     }
 
-	public static Chromo selectParent(ArrayList<Chromo> species){
+		public static int selectParent(){
 
-		double rWheel = 0;
-		int j = 0;
-		int k = 0;
-		int l = 0;
+			double rWheel = 0;
+			int j = 0;
+			int k = 0;
 
-		switch (Parameters.selectType){
+			switch (Parameters.selectType){
 
-		case 1:     // Proportional Selection
-			randnum = Search.r.nextDouble();
-			for (j=0; j<Parameters.popSize; j++){
-				rWheel = rWheel + Search.member[j].proFitness;
-				if (randnum < rWheel) return(Search.member[j]);
+			case 1:     // Proportional Selection
+				randnum = Search.r.nextDouble();
+				for (j=0; j<Parameters.popSize; j++){
+					rWheel = rWheel + Search.member[j].proFitness;
+					if (randnum < rWheel) return(j);
+				}
+				break;
+
+			case 3:     // Random Selection
+				randnum = Search.r.nextDouble();
+				j = (int) (randnum * Parameters.popSize);
+				return(j);
+
+			case 2:     //  Tournament Selection
+						randnum = Search.r.nextDouble();
+						j = (int) (randnum * Search.member.length);
+						randnum = Search.r.nextDouble();
+						k = (int) (randnum * Search.member.length);
+						while (j == k) {
+								randnum = Search.r.nextDouble();
+								k = (int) (randnum * Search.member.length);
+						}
+						return (Search.member[j].rawFitness < Search.member[k].rawFitness) ? j : k;
+
+			default:
+				System.out.println("ERROR - No selection method selected");
 			}
-			break;
-
-		case 2:     //  Tournament Selection
-						if(species.size() == 1)
-							return species.get(0);
-
-            randnum = Search.r.nextDouble();
-            j = (int) (randnum * species.size());
-            randnum = Search.r.nextDouble();
-            k = (int) (randnum * species.size());
-            while (j == k) {
-                randnum = Search.r.nextDouble();
-                k = (int) (randnum * species.size());
-            }
-            Chromo candidate1 = species.get(j);
-            Chromo candidate2 = species.get(k);
-            int dominantChromo = findDominant(candidate1, candidate2);
-
-            if      (dominantChromo ==  1) { // Candidate 1 dominates candidate 2
-                randnum = Search.r.nextDouble();
-                if (randnum < 0.7) {
-                    return species.get(j);
-                }
-                else {
-                    return species.get(k);
-                }
-            }
-            else if (dominantChromo == -1) { // Candidate 2 dominates candidate 1
-                randnum = Search.r.nextDouble();
-                if (randnum < 0.7) {
-                    return species.get(k);
-                }
-                else {
-                    return species.get(j);
-                }
-            }
-            else                           { // Neither candidate dominates the other
-                randnum = Search.r.nextDouble();
-                if (randnum < 0.5) {
-                    return species.get(j);
-                }
-                else {
-                    return species.get(k);
-                }
-            }
-
-		case 3:     // Random Selection
-			randnum = Search.r.nextDouble();
-			j = (int) (randnum * Parameters.popSize);
-			return species.get(j);
-
-		default:
-			System.out.println("ERROR - No selection method selected");
+		return(-1);
 		}
-	return(null);
-	}
 
 	//  Produce a new child from two parents  **********************************
 
-	public static void mateParents(Chromo parent1, Chromo parent2, Chromo child1, Chromo child2){
+	public static void mateParents(int pnum1, int pnum2, Chromo parent1, Chromo parent2, Chromo child1, Chromo child2){
 
 		int xoverPoint1;
 		int xoverPoint2;
@@ -362,7 +328,7 @@ public class Chromo
 
 	//  Produce a new child from a single parent  ******************************
 
-	public static void mateParents(Chromo parent, Chromo child){
+	public static void mateParents(int pnum, Chromo parent, Chromo child){
 
 		//  Create child chromosome from parental material
 		child.chromo = parent.chromo;
