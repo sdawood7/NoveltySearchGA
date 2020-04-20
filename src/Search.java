@@ -90,10 +90,12 @@ public class Search {
 		parmValues.outputParameters(summaryOutput);
 
 	//	Set up Fitness Statistics matrix
-		fitnessStats = new double[2][Parameters.generations];
+		fitnessStats = new double[4][Parameters.generations];
 		for (int i=0; i<Parameters.generations; i++){
 			fitnessStats[0][i] = 0;
 			fitnessStats[1][i] = 0;
+			fitnessStats[2][i] = 0;
+			fitnessStats[3][i] = 0;
 		}
 
 	//	Problem Specific Setup - For new new fitness function problems, create
@@ -255,6 +257,8 @@ public class Search {
 				// Accumulate fitness statistics
 				fitnessStats[0][G] += sumRawFitness / Parameters.popSize;
 				fitnessStats[1][G] += bestOfGenChromo.rawFitness;
+				fitnessStats[2][G] += sumNoveltyFitness / Parameters.popSize;
+				fitnessStats[3][G] += bestOfGenChromo.noveltyFitness;
 
 				averageRawFitness = sumRawFitness / Parameters.popSize;
 				averageNoveltyFitness = sumNoveltyFitness / Parameters.popSize;
@@ -478,11 +482,13 @@ public class Search {
 		problem.doPrintGenes(bestOverAllChromo, summaryOutput);
 
 		//	Output Fitness Statistics matrix
-		summaryOutput.write("Gen                 AvgFit              BestFit \n");
+		summaryOutput.write("Gen                 AvgFit              BestFit 				AvgNov			BestNov\n");
 		for (int i=0; i<Parameters.generations; i++){
 			Hwrite.left(i, 15, summaryOutput);
 			Hwrite.left(fitnessStats[0][i]/Parameters.numRuns, 20, 2, summaryOutput);
 			Hwrite.left(fitnessStats[1][i]/Parameters.numRuns, 20, 2, summaryOutput);
+			Hwrite.left(fitnessStats[2][i]/Parameters.numRuns, 20, 2, summaryOutput);
+			Hwrite.left(fitnessStats[3][i]/Parameters.numRuns, 20, 2, summaryOutput);
 			summaryOutput.write("\n");
 		}
 

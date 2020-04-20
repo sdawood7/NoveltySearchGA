@@ -35,20 +35,27 @@ public class DynamicLandscapes1 extends FitnessFunction{
 //  COMPUTE A CHROMOSOME'S RAW FITNESS *************************************
 
 	public void doRawFitness(Chromo X, int G){
-		double x, y, trans;
-		trans=0;
-
+		double x, y, transX, transY;
+		transX=0;
+		transY=0;
 		//parameters to trans or osc
 		//must uncomment function/ test below
 		//set trans= 0 if user doesn't want translating
 		if(Search.trans)
 		{
-			trans = 0.5;
+			transX = 0.5;
+			transY = 0.5;
 			if(Search.r.nextDouble() > 0.5)
-				trans *= -1;
+				transX *= -1;
+
+			if(Search.r.nextDouble() > 0.5)
+				transY *= -1;
 		}
 		else
-			trans = 0;
+		{
+			transX = 0;
+			transY = 0;
+		}
 			//multiply x and y value by specific function range
 			//change these lines to change function
 
@@ -74,13 +81,23 @@ public class DynamicLandscapes1 extends FitnessFunction{
 			// X.rawFitness= Math.pow(y-b*Math.pow(x,2)+(c*x)-6, 2)+ 10*(1-f)*Math.cos(x)+10;
 
 			//Oscillation Test: flip between function 1 & 2 every x gen
-			x= (X.getXGeneValue() * 5)+trans;
-			y= (X.getYGeneValue() * 5)+trans;
 			if(!Search.osc){
-				X.rawFitness= fitnessFunction5(x,y);
+				x= (X.getXGeneValue());
+				if(x < 0)
+				{
+					x = x * 5 + transX;
+				}else x = x * 10 + transX;
+				y= (X.getYGeneValue());
+				if(y < 0)
+				{
+					y = y * 5 + transY;
+				}else y = y * 15 + transY;
+				X.rawFitness= fitnessFunction3(x,y);
 			}
 			else{
-				X.rawFitness= fitnessFunction1(x,y);
+				x= (X.getXGeneValue() * 3);
+				y= (X.getYGeneValue() * 2);
+				X.rawFitness= fitnessFunction2(x,y);
 			}
 
 			//System.out.print("x = " + x + " ");
@@ -158,7 +175,7 @@ public class DynamicLandscapes1 extends FitnessFunction{
 	}
 
 	//function 2.13
-	public static double fitnessFunction3(double x, double y){ // Bound is 5 to 10 for x, -5 to 15 for y
+	public static double fitnessFunction3(double x, double y){ // Bound is 5 to 10 for x, 5 to 15 for y
 		double fitness = 0.0;
 		double b= 5.1/(4*Math.pow(Math.PI,2));
 		double c = 5/Math.PI;
