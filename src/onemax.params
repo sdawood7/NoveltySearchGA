@@ -7,9 +7,9 @@ Population Size              :100
 Selection Method (1)         :2
 Fitness Scaling Type (2)     :1
 Crossover Type (3)           :1
-Crossover Rate (4)           :0.8
+Crossover Rate (4)           :0.6
 Mutation Type (5)            :1
-Mutation Rate (6)            :0.005
+Mutation Rate (6)            :0.02
 Mutation Rate 2              :0.05
 Random Number Seed           :75982
 Number of Genes/Points (7)   :1

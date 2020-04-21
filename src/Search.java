@@ -181,22 +181,27 @@ public class Search {
 				else if(Parameters.dynamics == 2) // Oscellate
 				{
 					if(G % 20 == 0)
-						osc = true;
-					else
-						osc = false;
+						if(osc)
+							osc = false;
+						else
+							osc = true;
 				}
 				else if(Parameters.dynamics == 3) // Translate and oscellate
 				{
 					if(G % 20 == 0)
-						osc = true;
-					else
-						osc = false;
+					{
+						if(osc)
+							osc = false;
+						else
+							osc = true;
+					}
 
-					if(G % 5 == 0)
+					if(G % 2 == 0)
 						trans = true;
 					else
 						trans = false;
 				}
+
 
 				for (int i=0; i<Parameters.popSize; i++){
 

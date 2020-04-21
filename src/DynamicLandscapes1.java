@@ -41,20 +41,17 @@ public class DynamicLandscapes1 extends FitnessFunction{
 		//parameters to trans or osc
 		//must uncomment function/ test below
 		//set trans= 0 if user doesn't want translating
-		if(Search.trans)
+    if(Search.trans)
 		{
-			transX = 0.5;
-			transY = 0.5;
 			if(Search.r.nextDouble() > 0.5)
-				transX *= -1;
+				transX -= 0.5;
+      else
+        transX += 0.5;
 
 			if(Search.r.nextDouble() > 0.5)
-				transY *= -1;
-		}
-		else
-		{
-			transX = 0;
-			transY = 0;
+				transY -= 0.5;
+      else
+        transY += 0.5;
 		}
 			//multiply x and y value by specific function range
 			//change these lines to change function
@@ -81,8 +78,9 @@ public class DynamicLandscapes1 extends FitnessFunction{
 			// X.rawFitness= Math.pow(y-b*Math.pow(x,2)+(c*x)-6, 2)+ 10*(1-f)*Math.cos(x)+10;
 
 			//Oscillation Test: flip between function 1 & 2 every x gen
-			if(!Search.osc){
+      if(!Search.osc){
 				x= (X.getXGeneValue());
+        //y= (X.getYGeneValue() * 2) + transY;
 				if(x < 0)
 				{
 					x = x * 5 + transX;

@@ -122,7 +122,7 @@ public class Parameters
         }
 
         if ((generationCount % hypermutationFrequency) == 0) {
-            usingHypermutation = true;
+            //usingHypermutation = true;
         }
     }
 
